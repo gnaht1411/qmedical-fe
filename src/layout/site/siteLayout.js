@@ -1,25 +1,23 @@
 import React from 'react'
-import HeaderTop from "../../component/site/headerTop/headerTop";
-import Navbar from "../../component/site/navbar/navbar";
-import HomeSlider from "../../page/site/home/homeSlider/homeSlider";
+import Header from "../../component/site/header/header";
+import Footer from "../../component/site/footer/footer";
 import {Routes, Route} from "react-router-dom";
 import HomePage from "../../page/site/home/homePage";
-import Footer from "../../component/site/footer/footer";
-import Copyright from "../../component/site/copyright/copyright";
+import LoginPage from "../../page/login/loginPage";
 
 const SiteLayout = () => {
     return (
         <>
-            <HeaderTop/>
-            <Navbar/>
-            <Routes>
-
-                <Route path="" element={<HomePage/>}>
-                </Route>
-            </Routes>
-
-            <Footer />
-            <Copyright />
+            <Header/>
+            <div>
+                <div className="main-wrapper">
+                    <Routes>
+                        <Route path="" element={<HomePage/>}></Route>
+                        <Route path="login" element={<LoginPage />} />
+                    </Routes>
+                </div>
+            </div>
+            <Footer/>
         </>
     )
 }

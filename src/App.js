@@ -1,16 +1,16 @@
 import {Routes, Route} from "react-router-dom";
-import LoginPage from './page/login/loginPage';
 import SiteLayout from "./layout/site/siteLayout";
+import AdminLayout from "./layout/admin/adminLayout";
+import React from "react";
+import LoginPage from "./page/login/loginPage";
 
 function App() {
     return (
-        <div className="">
-            <Routes>
-                <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/" element={<SiteLayout/>}/>
-
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/admin/*" element={<AdminLayout/>}/>
+            <Route path="/*" element={<SiteLayout/>}/>
+            {/*<Route path="*" element={<NotFound/>}/>*/}
+        </Routes>
     );
 }
 

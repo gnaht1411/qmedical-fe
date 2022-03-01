@@ -16,7 +16,12 @@ const login = () => {
     }
 }
 
+const isLogined = () => {
+    return localStorage.getItem("accessToken") !== null
+}
+
 export default {
     getRoles,
-    login
+    login,
+    isLogined
 }

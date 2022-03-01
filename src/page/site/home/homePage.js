@@ -1,20 +1,30 @@
-import Counter from "./counter/counter";
-import React from "react";
-import HomeSlider from "./homeSlider/homeSlider";
-import About from "./about/about";
-import Service from "./service/service";
-import Doctor from "./doctor/doctor";
-import Preloader from "../../../component/site/preloader/preloader";
+import Banner from "./banner/Banner";
+import Clinic from "./clinic/clinic";
+import Popular from "./popular/popular";
+import Feature from "./feature/feature";
+import {useEffect, useState} from "react";
 
 const HomePage = () => {
+
+    useEffect(() => {
+        if( window.localStorage )
+        {
+            if( !localStorage.getItem('firstLoad') )
+            {
+                localStorage['firstLoad'] = true;
+                window.location.reload();
+            }
+            else
+                localStorage.removeItem('firstLoad');
+        }
+    }, [])
+
     return (
         <>
-            <Preloader />
-            <HomeSlider />
-            <Counter/>
-            <About />
-            <Service />
-            <Doctor />
+            <Banner />
+            <Clinic />
+            <Popular />
+            <Feature />
         </>
     )
 }

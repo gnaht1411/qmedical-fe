@@ -1,9 +1,9 @@
 import {useForm} from "react-hook-form";
-import createToast from "../../component/site/toast/toast"
-import axios from "axios";
-import toastTypes from "../../common/constants/toast/toastTypes";
 import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
+import axios from "axios";
+import createToast from "../../component/site/toast/toast";
+import toastTypes from "../../common/constants/toast/toastTypes";
 
 const LoginPage = () => {
 
@@ -33,73 +33,71 @@ const LoginPage = () => {
     }
 
     return (
-        <section className="ftco-section">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-12 col-lg-10">
-                        <div className="wrap d-md-flex">
-                            <div className="img" style={{backgroundImage: 'url(/assets/login/images/bg-1.jpg)'}}>
-                            </div>
-                            <div className="login-wrap p-4 p-md-5">
-                                <div className="d-flex">
-                                    <div className="w-100">
-                                        <h3 className="mb-4">Login</h3>
-                                    </div>
-                                    <div className="w-100">
-                                        <p className="social-media d-flex justify-content-end">
-                                            <a href="#"
-                                               className="social-icon d-flex align-items-center justify-content-center"><span
-                                                className="fa fa-facebook"/></a>
-                                            <a href="#"
-                                               className="social-icon d-flex align-items-center justify-content-center"><span
-                                                className="fa fa-twitter"/></a>
-                                        </p>
-                                    </div>
+        <div className="content">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-8 offset-md-2">
+                        <div className="account-content">
+                            <div className="row align-items-center justify-content-center">
+                                <div className="col-md-7 col-lg-6 login-left">
+                                    <img src="assets/img/login-banner.png" className="img-fluid" alt="Doccure Login"/>
                                 </div>
-                                <form action="#" className="signin-form" onSubmit={handleSubmit(handleLogin)}>
-                                    <div className="form-group mb-3">
-                                        <label className="label" htmlFor="username">Username</label>
-                                        <input type="text" {...register("username", {required: true})}
-                                               className="form-control" placeholder="Username" required/>
-                                        {errors.username?.type === 'required' &&
-                                            <span className="text-danger">Username is required!</span>}
+                                <div className="col-md-12 col-lg-6 login-right">
+                                    <div className="login-header">
+                                        <h3>Login</h3>
                                     </div>
-                                    <div className="form-group mb-3">
-                                        <label className="label" htmlFor="password">Password</label>
-                                        <input type="password" {...register("password", {required: true})}
-                                               className="form-control" placeholder="Password" required/>
-                                        {errors.password?.type === 'required' &&
-                                            <span className="text-danger">Password is required!</span>}
-                                    </div>
-                                    <div className="form-group">
-                                        <button type="submit"
-                                                disabled={enableButton}
-                                                className={`form-control btn btn-primary rounded px-3 submit"}`}
-                                        >Sign In
+                                    <form onSubmit={handleSubmit(handleLogin)}>
+                                        <div className="form-group form-focus">
+                                            <input required className="form-control floating"
+                                                   {...register("username", {required: true})}
+                                                placeholder="Username..."
+                                            />
+                                            <label className="focus-label">Username</label>
+                                            {errors.username?.type === 'required' &&
+                                                <span className="text-danger">Username is required!</span>}
+                                        </div>
+                                        <div className="form-group form-focus">
+                                            <input type="password" className="form-control floating"
+                                                   {...register("password", {required: true})}
+                                            placeholder="Password..."/>
+                                            <label className="focus-label">Password</label>
+                                            {errors.password?.type === 'required' &&
+                                                <span className="text-danger">Password is required!</span>}
+                                        </div>
+                                        <div className="text-right">
+                                            <a className="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                        </div>
+                                        <button className="btn btn-primary btn-block btn-lg login-btn"
+                                                type="submit">Login
                                         </button>
-                                    </div>
-                                    <div className="form-group d-md-flex">
-                                        <div className="w-50 text-left">
-                                            {/*<label className="checkbox-wrap checkbox-primary mb-0">Remember Me*/}
-                                            {/*    <input type="checkbox" defaultChecked />*/}
-                                            {/*    <span className="checkmark" />*/}
-                                            {/*</label>*/}
+                                        <div className="login-or">
+                                            <span className="or-line"></span>
+                                            <span className="span-or">or</span>
                                         </div>
-                                        <div className="w-50 text-md-right">
-                                            <a href="#">Forgot Password</a>
+                                        <div className="row form-row social-login">
+                                            <div className="col-6">
+                                                <a href="#" className="btn btn-facebook btn-block"><i
+                                                    className="fab fa-facebook-f mr-1"></i> Login</a>
+                                            </div>
+                                            <div className="col-6">
+                                                <a href="#" className="btn btn-google btn-block"><i
+                                                    className="fab fa-google mr-1"></i> Login</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                                <p className="text-center">Not a member? <a data-toggle="tab"
-                                                                            href="#signup">Register</a></p>
+                                        <div className="text-center dont-have">Don’t have an account? <a
+                                            href="register.html">Register</a>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
             </div>
-        </section>
 
-
+        </div>
     )
 }
 
