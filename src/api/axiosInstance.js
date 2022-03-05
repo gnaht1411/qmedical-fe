@@ -17,6 +17,11 @@ const search = url => {
     return axiosInstance.get(url, getConfig())
 }
 
+const searchNoAuth = url => (
+    axiosInstance.get(url)
+)
+
 export default {
-    search
+    search,
+    searchNoAuth
 }
