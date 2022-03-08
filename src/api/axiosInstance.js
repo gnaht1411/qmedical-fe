@@ -18,7 +18,7 @@ const search = url => {
 }
 
 const searchNoAuth = url => (
-    axiosInstance.get(url)
+    axiosInstance.get(`/no-auth/${url}`)
 )
 
 export default {

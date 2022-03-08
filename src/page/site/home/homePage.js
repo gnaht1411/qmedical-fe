@@ -23,7 +23,7 @@ const HomePage = () => {
         <>
             <Banner />
             <Clinic />
-            <Popular />
+            {/*<Popular />*/}
             <Feature />
         </>
     )

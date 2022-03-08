@@ -1,7 +1,7 @@
 import Breadcrumb from "./breadcrumb/breadcrumb";
 import Content from "./content/content";
 import {useEffect, useState} from "react";
-import axiosInstance from "../../../api/axiosInstance";
+import axiosInstance from "../../../../api/axiosInstance";
 import queryString from "query-string";
 
 const initParams = {
@@ -18,7 +18,7 @@ const initPage = {
     hasPrevious: false
 }
 
-const SearchPage = () => {
+const SearchDoctorPage = () => {
     const [doctors, setDoctors] = useState([])
 
     const [totalElements, setTotalElements] = useState(null)
@@ -27,9 +27,10 @@ const SearchPage = () => {
 
     const [page, setPage] = useState(initPage)
 
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         getDoctors(params)
-        // console.log('params: ', params)
     }, [params])
 
     const handleSearch = values => {
@@ -38,16 +39,20 @@ const SearchPage = () => {
 
     const getDoctors = async params => {
         try {
-            const url = `/staff/doctor/search?${queryString.stringify(params)}`;
-            const res = await axiosInstance.searchNoAuth(url)
-            console.log("url:", url)
-            console.log("getDoctor():", res)
-            setTotalElements(res.data.totalElements)
-            setDoctors(res.data.data)
-            setPage({
-                hasNext: res.data.hasNext,
-                hasPrevious: res.data.hasPrevious
-            })
+            setLoading(true)
+            setTimeout(async () => {
+                const url = `doctor/search?${queryString.stringify(params)}`;
+                const res = await axiosInstance.searchNoAuth(url)
+                console.log("url:", url)
+                console.log("getDoctor():", res)
+                setTotalElements(res.data.totalElements)
+                setDoctors(res.data.data)
+                setPage({
+                    hasNext: res.data.hasNext,
+                    hasPrevious: res.data.hasPrevious
+                })
+                setLoading(false)
+            }, 2000)
         } catch (e) {
             console.log(e.message)
         }
@@ -64,9 +69,10 @@ const SearchPage = () => {
                 handleSearch={handleSearch}
                 params={params}
                 page={page}
+                loading={loading}
             />
         </>
     )
 }
 
-export default SearchPage
+export default SearchDoctorPage

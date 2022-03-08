@@ -57,7 +57,7 @@ const Header = () => {
                         <li className="has-submenu">
                             <a href="#">Patients <i className="fas fa-chevron-down"></i></a>
                             <ul className="submenu">
-                                <li><Link to="search">Search Doctor</Link></li>
+                                <li><Link to="search-doctor">Search Doctor</Link></li>
                                 <li><a href="doctor-profile.html">Doctor Profile</a></li>
                                 <li><a href="booking.html">Booking</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>

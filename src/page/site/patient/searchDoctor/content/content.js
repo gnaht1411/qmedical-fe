@@ -1,8 +1,9 @@
 import {useForm} from "react-hook-form";
+import {Link} from "react-router-dom";
 
 const Content = (props) => {
 
-    let {doctors, handleSearch, params, page} = props
+    let {doctors, handleSearch, params, page, loading} = props
 
     const {register, handleSubmit} = useForm()
 
@@ -92,7 +93,6 @@ const Content = (props) => {
                     </div>
 
                     <div className="col-md-12 col-lg-8 col-xl-9">
-
                         {doctors && doctors.map(doctor => (
                             <div key={doctor.id} className="card">
                                 <div className="card-body">
@@ -106,8 +106,8 @@ const Content = (props) => {
                                                 </a>
                                             </div>
                                             <div className="doc-info-cont">
-                                                <h4 className="doc-name"><a href="doctor-profile.html">
-                                                    {doctor.gender ? 'Mr' : 'Mrs'} {doctor.name}</a>
+                                                <h4 className="doc-name"><Link to={`/doctor-profile/${doctor.id}`}>
+                                                    {doctor.gender ? 'Mr' : 'Mrs'} {doctor.firstName} {doctor.lastName}</Link>
                                                 </h4>
                                                 <span className="doc-speciality">
                                                     Ngày sinh: {new Date(doctor.dob).toLocaleDateString()} <br/>

@@ -4,7 +4,8 @@ import Footer from "../../component/site/footer/footer";
 import {Routes, Route} from "react-router-dom";
 import HomePage from "../../page/site/home/homePage";
 import LoginPage from "../../page/login/loginPage";
-import SearchPage from "../../page/site/search/searchPage";
+import SearchDoctorPage from "../../page/site/patient/searchDoctor/searchDoctorPage";
+import DoctorProfilePage from "../../page/site/patient/doctorProfile/doctorProfilePage";
 
 const SiteLayout = () => {
     return (
@@ -14,8 +15,9 @@ const SiteLayout = () => {
                 <div className="main-wrapper">
                     <Routes>
                         <Route path="" element={<HomePage/>}></Route>
-                        <Route path="search" element={<SearchPage />} />
-                        <Route path="login" element={<LoginPage />} />
+                        <Route path="search-doctor" element={<SearchDoctorPage/>}/>
+                        <Route path="login" element={<LoginPage/>}/>
+                        <Route path="doctor-profile/:id" element={<DoctorProfilePage/>}/>
                     </Routes>
                 </div>
             </div>
