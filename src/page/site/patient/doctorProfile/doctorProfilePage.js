@@ -13,7 +13,6 @@ const DoctorProfilePage = () => {
     useEffect(() => {
         const getDoctor = async (doctorId) => {
             const res = await axiosInstance.searchNoAuth(`doctor/${doctorId}`)
-            console.log(res)
             setDoctor(res.data)
         }
         getDoctor(id)

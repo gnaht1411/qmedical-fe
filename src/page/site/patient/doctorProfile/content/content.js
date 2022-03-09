@@ -1,5 +1,8 @@
+import {Link} from "react-router-dom";
+
 const Content = (props) => {
     const {doctor} = props
+
     return (
         <div className="content">
             <div className="container">
@@ -94,11 +97,10 @@ const Content = (props) => {
                                         </a>
                                     </div>
                                     <div className="clinic-booking">
-                                        <a className="apt-btn" href="booking.html">Book Appointment</a>
+                                        <Link className="apt-btn" to={`/booking/${doctor.id}`}>Book Appointment</Link>
                                     </div>
                                 </div>
                             </div>
-
                         }
                     </div>
                 </div>
