@@ -1,11 +1,29 @@
-import DatePicker from 'react-datepicker'
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axiosInstance from "../../../../../api/axiosInstance";
 
 const Content = (props) => {
 
     const {doctor} = props
 
     const [startDate, setStartDate] = useState(new Date());
+
+    const [services, setServices] = useState()
+
+    useEffect(() => {
+        const getServices = async () => {
+            const res = await axiosInstance.searchNoAuth("service/no-page")
+            console.log(res)
+            setServices(res.data)
+        }
+
+        getServices()
+    }, [])
+
+    const handleChangeDate = e => {
+        console.log(e.target.value)
+        const date = new Date(e.target.value)
+        console.log(date.getTime())
+    }
 
     return (
         <div className="content">
@@ -43,19 +61,20 @@ const Content = (props) => {
                             </div>
                         }
 
-                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-
                         <div className="card booking-schedule schedule-widget">
-                            {/*<div className="schedule-header">*/}
-                                {/*<div className="row">*/}
-                                    {/*<div className="col-md-12">*/}
-                                        {/*<div className="day-slot">*/}
-
-                                        {/*</div>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                            <div className="schedule-header">
+                                <h4 className="card-title">Chọn thời gian</h4>
+                                <p></p>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="day-slot">
+                                            <input type="date" className="form-control" onChange={handleChangeDate}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="schedule-cont">
+                                <p></p>
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="time-slot">
@@ -142,6 +161,60 @@ const Content = (props) => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="card booking-schedule schedule-widget p-4">
+                            <h4 className="card-title">Chọn dịch vụ</h4>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="day-slot">
+                                        <select className="form-control" id="exampleFormControlSelect1">
+                                            {services && services.map(service => (
+                                                <>
+
+                                                    <option key={service.id}>{service.name} (Giá: {service.price.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}/ {service.unit})
+                                                    </option>
+                                                    <p>{service.des}</p>
+                                                </>
+
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card booking-schedule schedule-widget p-4">
+                            <div className="schedule-heade">
+                                <h4 className="card-title">Thông tin cá nhân</h4>
+                                <div className="row">
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>First Name</label>
+                                            <input className="form-control" type="text"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Last Name</label>
+                                            <input className="form-control" type="text"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Email</label>
+                                            <input className="form-control" type="email"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Phone</label>
+                                            <input className="form-control" type="text"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div className="submit-section proceed-btn text-right">
