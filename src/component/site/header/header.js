@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import authService from "../../../service/authService";
 
 const Header = () => {
@@ -16,20 +16,20 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg header-nav">
                 <div className="navbar-header">
                     <a id="mobile_btn" href="javascript:void(0);">
-							<span className="bar-icon">
-								<span></span>
-								<span></span>
-								<span></span>
-							</span>
+                        <span className="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
                     </a>
                     <a href="index-2.html" className="navbar-brand logo">
-                        <img src="assets/img/logo.png" className="img-fluid" alt="Logo"/>
+                        <img src="assets/img/logo.png" className="img-fluid" alt="Logo" />
                     </a>
                 </div>
                 <div className="main-menu-wrapper">
                     <div className="menu-header">
                         <a href="index-2.html" className="menu-logo">
-                            <img src="assets/img/logo.png" className="img-fluid" alt="Logo"/>
+                            <img src="assets/img/logo.png" className="img-fluid" alt="Logo" />
                         </a>
                         <a id="menu_close" className="menu-close" href="javascript:void(0);">
                             <i className="fas fa-times"></i>
@@ -91,7 +91,7 @@ const Header = () => {
                             </ul>
                         </li>
                         <li>
-                            <a href="admin/index.html" target="_blank">Admin</a>
+                            <Link to="admin" target="_blank">Admin</Link>
                         </li>
                         <li className="login-link">
                             <a href="login.html">Login / Signup</a>
@@ -111,7 +111,7 @@ const Header = () => {
                     {isLogined &&
                         <li className="nav-item">
                             <Link onClick={handleLoginOrLogout} to="/login"
-                                  className="nav-link header-login">Logout</Link>
+                                className="nav-link header-login">Logout</Link>
                         </li>
 
                     }
