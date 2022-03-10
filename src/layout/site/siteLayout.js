@@ -3,7 +3,7 @@ import Header from "../../component/site/header/header";
 import Footer from "../../component/site/footer/footer";
 import {Routes, Route} from "react-router-dom";
 import HomePage from "../../page/site/home/homePage";
-import LoginPage from "../../page/login/loginPage";
+import LoginPage from "../../page/site/login/loginPage";
 import SearchDoctorPage from "../../page/site/patient/searchDoctor/searchDoctorPage";
 import DoctorProfilePage from "../../page/site/patient/doctorProfile/doctorProfilePage";
 import ChangePassword from "../../page/site/changePassword/changePassword";

@@ -2,8 +2,8 @@ import {useForm} from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import axios from "axios";
-import createToast from "../../component/site/toast/toast";
-import toastTypes from "../../common/constants/toast/toastTypes";
+import createToast from "../../../component/site/toast/toast";
+import toastTypes from "../../../common/constants/toast/toastTypes";
 
 const LoginPage = () => {
 
