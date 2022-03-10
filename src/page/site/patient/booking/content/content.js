@@ -171,7 +171,6 @@ const Content = (props) => {
                                         <select className="form-control" id="exampleFormControlSelect1">
                                             {services && services.map(service => (
                                                 <>
-
                                                     <option key={service.id}>{service.name} (Giá: {service.price.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}/ {service.unit})
                                                     </option>
                                                     <p>{service.des}</p>
