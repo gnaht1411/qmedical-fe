@@ -1,34 +1,81 @@
 import {useEffect, useState} from "react";
 import axiosInstance from "../../../../../api/axiosInstance";
+import {toast} from "react-toastify";
+import toastTypes from "../../../../../common/constants/toast/toastTypes";
+import createToast from "../../../../../component/site/toast/toast";
+import {useForm} from "react-hook-form";
+import queryString from "query-string";
+
+const bookingDto = {
+    id: null,
+    staffId: null,
+    createTime: null,
+    shiftId: null,
+    serviceId: null,
+    patientFirstName: null,
+    patientLastName: null,
+    patientEmail: null,
+    patientPhone: null,
+    patientDob: null,
+    patientAddress: null,
+    patientGender: null
+}
 
 const Content = (props) => {
 
     const {doctor} = props
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [date, setDate] = useState(new Date());
+
+    const [shifts, setShifts] = useState()
 
     const [services, setServices] = useState()
 
+    const [disabledShifts, setDisabledShifts] = useState(true)
+
+    const {register, handleSubmit, formState: {errors}} = useForm()
+
+
     useEffect(() => {
-        const getServices = async () => {
-            const res = await axiosInstance.searchNoAuth("service/no-page")
-            console.log(res)
-            setServices(res.data)
+        const getData = async () => {
+            try {
+                const resServices = await axiosInstance.searchNoAuth("service/no-page")
+                setServices(resServices.data)
+            } catch (e) {
+                toast(toastTypes.ERROR, e.message)
+            }
         }
 
-        getServices()
+        getData()
     }, [])
 
-    const handleChangeDate = e => {
-        console.log(e.target.value)
-        const date = new Date(e.target.value)
-        console.log(date.getTime())
+    const handleChangeDate = async e => {
+        const selectedDate = new Date(e.target.value).getTime()
+        const now = new Date()
+        if (selectedDate <= now.getTime()) {
+            createToast(toastTypes.ERROR, `Vui lòng chọn sau ngày ${now.toLocaleDateString()}!`)
+            setDisabledShifts(true)
+        } else {
+            setDisabledShifts(false)
+            const obj = {
+                staffId: doctor.id,
+                time: selectedDate
+            }
+            const params = queryString.stringify(obj)
+            const resShifts = await axiosInstance.searchNoAuth(`shift/available?${params}`)
+            console.log(resShifts)
+            setShifts(resShifts.data)
+        }
+    }
+
+    const handleBooking = values => {
+        console.log(values)
     }
 
     return (
         <div className="content">
             <div className="container">
-                <div className="row">
+                <form onSubmit={handleSubmit(handleBooking)} className="row">
                     <div className="col-12">
                         {doctor &&
                             <div className="card">
@@ -66,9 +113,14 @@ const Content = (props) => {
                                 <h4 className="card-title">Chọn thời gian</h4>
                                 <p></p>
                                 <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="day-slot">
-                                            <input type="date" className="form-control" onChange={handleChangeDate}/>
+                                    <div className="col-md-12 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Ngày tháng</label>
+                                            <input
+                                                {...register('bookingTime', {require: true})}
+                                                type="date"
+                                                className="form-control"
+                                                onChange={handleChangeDate}/>
                                         </div>
                                     </div>
                                 </div>
@@ -76,87 +128,20 @@ const Content = (props) => {
                             <div className="schedule-cont">
                                 <p></p>
                                 <div className="row">
-                                    <div className="col-md-12">
+                                    <div className="col">
                                         <div className="time-slot">
-                                            <ul className="clearfix">
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing selected" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="timing" href="#">
-                                                        <span>9:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>10:00</span> <span>AM</span>
-                                                    </a>
-                                                    <a className="timing" href="#">
-                                                        <span>11:00</span> <span>AM</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <h4 className="card-title">Chọn ca</h4>
+                                            <select
+                                                {...register('shiftId', {require: true})}
+                                                className="form-control" id="shiftSelect"
+                                                disabled={disabledShifts}>
+                                                {shifts && shifts.map(shift => (
+                                                    <option
+                                                        value={shift.id}
+                                                        key={shift.id}>{shift.name}: {shift.startTime24} - {shift.endTime24}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -168,14 +153,15 @@ const Content = (props) => {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="day-slot">
-                                        <select className="form-control" id="exampleFormControlSelect1">
+                                        <select  {...register('serviceId', {require: true})} className="form-control"
+                                                 id="exampleFormControlSelect1">
                                             {services && services.map(service => (
-                                                <>
-                                                    <option key={service.id}>{service.name} (Giá: {service.price.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})}/ {service.unit})
-                                                    </option>
-                                                    <p>{service.des}</p>
-                                                </>
-
+                                                <option
+                                                    value={service.id}
+                                                    key={service.id}>{service.name} (Giá: {service.price.toLocaleString('it-IT', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })}/ {service.unit})</option>
                                             ))}
                                         </select>
                                     </div>
@@ -189,39 +175,83 @@ const Content = (props) => {
                                 <div className="row">
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
-                                            <label>First Name</label>
-                                            <input className="form-control" type="text"/>
+                                            <label>Tên</label>
+                                            <input
+                                                className="form-control" {...register('patientFirstName', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
-                                            <label>Last Name</label>
-                                            <input className="form-control" type="text"/>
+                                            <label>Họ</label>
+                                            <input
+                                                className="form-control" {...register('patientLastName', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Email</label>
-                                            <input className="form-control" type="email"/>
+                                            <input
+                                                className="form-control" {...register('patientEmail', {require: true})}
+                                                type="email"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
-                                            <label>Phone</label>
-                                            <input className="form-control" type="text"/>
+                                            <label>Số điện thoại</label>
+                                            <input
+                                                className="form-control" {...register('patientPhone', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Ngày sinh</label>
+                                            <input type="date"  {...register('patientDob', {require: true})}
+                                                   className="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Địa chỉ</label>
+                                            <input
+                                                className="form-control" {...register('patientAddress', {require: true})}
+                                                type="text"/>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="col-md-6 col-sm-12">
+                                        <label>Giới tính</label>
+
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="radio" name="gender"
+                                                   id="male" {...register('patientGender', {require: true})}/>
+                                            <label className="form-check-label" htmlFor="male">
+                                                Male
+                                            </label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="radio" name="gender"
+                                                   id="female" {...register('patientGender', {require: true})}/>
+                                            <label className="form-check-label" htmlFor="female">
+                                                Female
+                                            </label>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
                         </div>
 
                         <div className="submit-section proceed-btn text-right">
-                            <a href="checkout.html" className="btn btn-primary submit-btn">Proceed to Pay</a>
+                            <input type="submit" className="btn btn-primary submit-btn" value="Proceed to Pay"/>
                         </div>
 
                     </div>
-                </div>
+                </form>
             </div>
 
         </div>
