@@ -6,10 +6,10 @@ import createToast from "../../../../../component/site/toast/toast";
 import {useForm} from "react-hook-form";
 import queryString from "query-string";
 
-const bookingDto = {
+let bookingDto = {
     id: null,
     staffId: null,
-    createTime: null,
+    bookingTime: null,
     shiftId: null,
     serviceId: null,
     patientFirstName: null,
@@ -18,7 +18,9 @@ const bookingDto = {
     patientPhone: null,
     patientDob: null,
     patientAddress: null,
-    patientGender: null
+    patientGender: null,
+    bookingType: null,
+    note: null
 }
 
 const Content = (props) => {
@@ -52,7 +54,7 @@ const Content = (props) => {
     const handleChangeDate = async e => {
         const selectedDate = new Date(e.target.value).getTime()
         const now = new Date()
-        if (selectedDate <= now.getTime()) {
+        if (selectedDate < now.getTime()) {
             createToast(toastTypes.ERROR, `Vui lòng chọn sau ngày ${now.toLocaleDateString()}!`)
             setDisabledShifts(true)
         } else {
@@ -68,8 +70,30 @@ const Content = (props) => {
         }
     }
 
-    const handleBooking = values => {
-        console.log(values)
+    const handleBooking = async values => {
+        try {
+            bookingDto = {
+                ...bookingDto,
+                staffId: Number(doctor.id),
+                bookingTime: new Date(values.bookingTime).getTime(),
+                shiftId: Number(values.shiftId),
+                serviceId: Number(values.serviceId),
+                patientFirstName: values.patientFirstName,
+                patientLastName: values.patientLastName,
+                patientEmail: values.patientEmail,
+                patientPhone: values.patientPhone,
+                patientDob: new Date(values.patientDob).getTime(),
+                patientAddress: values.patientAddress,
+                patientGender: Boolean(values.patientGender),
+                bookingType: 'BOOKING',
+            }
+            console.log(bookingDto)
+            const res = await axiosInstance.postNoAuth("booking", bookingDto)
+            createToast(toastTypes.SUCCESS, "Đặt lịch thành công!")
+        } catch (e) {
+            console.log(e.response.data.message)
+            createToast(toastTypes.ERROR, e ? e.response.data.message : 'Lỗi')
+        }
     }
 
     return (
@@ -194,6 +218,7 @@ const Content = (props) => {
                                             <label>Email</label>
                                             <input
                                                 className="form-control" {...register('patientEmail', {require: true})}
+                                                required
                                                 type="email"/>
                                         </div>
                                     </div>
@@ -209,7 +234,7 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Ngày sinh</label>
                                             <input type="date"  {...register('patientDob', {require: true})}
-                                                   className="form-control"/>
+                                                   className="form-control" required/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
@@ -226,17 +251,18 @@ const Content = (props) => {
                                         <label>Giới tính</label>
 
                                         <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="gender"
+                                            <input className="form-check-input" type="radio" name="gender" value={true}
+                                                   defaultChecked={true}
                                                    id="male" {...register('patientGender', {require: true})}/>
                                             <label className="form-check-label" htmlFor="male">
-                                                Male
+                                                Nam
                                             </label>
                                         </div>
                                         <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="gender"
+                                            <input className="form-check-input" type="radio" name="gender" value={false}
                                                    id="female" {...register('patientGender', {require: true})}/>
                                             <label className="form-check-label" htmlFor="female">
-                                                Female
+                                                Nữ
                                             </label>
                                         </div>
                                     </div>
@@ -247,7 +273,7 @@ const Content = (props) => {
                         </div>
 
                         <div className="submit-section proceed-btn text-right">
-                            <input type="submit" className="btn btn-primary submit-btn" value="Proceed to Pay"/>
+                            <input type="submit" className="btn btn-primary submit-btn" value="Đặt lịch"/>
                         </div>
 
                     </div>

@@ -21,7 +21,12 @@ const searchNoAuth = url => (
     axiosInstance.get(`/no-auth/${url}`)
 )
 
+const postNoAuth = (url, body) => (
+    axiosInstance.post(`/no-auth/${url}`, body)
+)
+
 export default {
     search,
-    searchNoAuth
+    searchNoAuth,
+    postNoAuth
 }

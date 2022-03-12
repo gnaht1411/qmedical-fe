@@ -6,7 +6,7 @@ import React from "react";
 function App() {
     return (
         <Routes>
-            {/*<Route path="/admin/*" element={<AdminLayout/>}/>*/}
+            <Route path="/admin/*" element={<AdminLayout/>}/>
             <Route path="/*" element={<SiteLayout/>}/>
             {/*<Route path="*" element={<NotFound/>}/>*/}
         </Routes>

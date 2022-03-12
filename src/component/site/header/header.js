@@ -85,13 +85,14 @@ const Header = () => {
                                     </ul>
                                 </li>
                                 <li><a href="blank-page.html">Starter Page</a></li>
-                                <li className="active"><a href="login.html">Login</a></li>
+                                <li className="active">
+                                    <Link to="/login">Login</Link></li>
                                 <li><a href="register.html">Register</a></li>
                                 <li><a href="forgot-password.html">Forgot Password</a></li>
                             </ul>
                         </li>
                         <li>
-                            <Link to="admin" target="_blank">Admin</Link>
+                            <Link to="admin">Admin</Link>
                         </li>
                         <li className="login-link">
                             <a href="login.html">Login / Signup</a>
