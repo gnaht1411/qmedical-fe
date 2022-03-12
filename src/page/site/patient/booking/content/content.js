@@ -5,6 +5,7 @@ import toastTypes from "../../../../../common/constants/toast/toastTypes";
 import createToast from "../../../../../component/site/toast/toast";
 import {useForm} from "react-hook-form";
 import queryString from "query-string";
+import {useNavigate} from "react-router-dom";
 
 let bookingDto = {
     id: null,
@@ -37,6 +38,7 @@ const Content = (props) => {
 
     const {register, handleSubmit, formState: {errors}} = useForm()
 
+    const navigate = useNavigate()
 
     useEffect(() => {
         const getData = async () => {
@@ -89,7 +91,11 @@ const Content = (props) => {
             }
             console.log(bookingDto)
             const res = await axiosInstance.postNoAuth("booking", bookingDto)
-            createToast(toastTypes.SUCCESS, "Đặt lịch thành công!")
+            createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
+            setTimeout(() => {
+                navigate("/booking-success")
+                window.location.reload()
+            }, 2000)
         } catch (e) {
             console.log(e.response.data.message)
             createToast(toastTypes.ERROR, e ? e.response.data.message : 'Lỗi')
