@@ -98,7 +98,7 @@ const Content = (props) => {
             }, 2000)
         } catch (e) {
             console.log(e.response.data.message)
-            createToast(toastTypes.ERROR, e ? e.response.data.message : 'Lỗi')
+            createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
     }
 
