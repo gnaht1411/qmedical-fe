@@ -366,4 +366,14 @@ Version      : 1.0
     }
     $(window).scroll(animateElements);
 
+
+
 })(jQuery);
+
+// var date = new Date()
+// var year = date.getFullYear()
+// var month = date.getMonth() + 1
+// var day = String(date.getDate()).padStart(2, '0')
+// const patternDate = year + '/' + month + '/' + day
+// document.getElementById('dateInput').value = patternDate
+// console.log("VALALLA")

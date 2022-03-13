@@ -6,13 +6,14 @@ import createToast from "../../../../../component/site/toast/toast";
 import {useForm} from "react-hook-form";
 import queryString from "query-string";
 import {useNavigate} from "react-router-dom";
+import DatePicker from 'react-datepicker'
 
 let bookingDto = {
     id: null,
     staffId: null,
     bookingTime: null,
     shiftId: null,
-    serviceId: null,
+    serviceIds: null,
     patientFirstName: null,
     patientLastName: null,
     patientEmail: null,
@@ -24,11 +25,15 @@ let bookingDto = {
     note: null
 }
 
+const convertStringsToNumbers = data => {
+    return data.toString().split(',').map(item => (parseInt(item, 10)))
+}
+
 const Content = (props) => {
 
     const {doctor} = props
 
-    const [date, setDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const [shifts, setShifts] = useState()
 
@@ -37,6 +42,8 @@ const Content = (props) => {
     const [disabledShifts, setDisabledShifts] = useState(true)
 
     const {register, handleSubmit, formState: {errors}} = useForm()
+
+    const [dob, setDob] = useState()
 
     const navigate = useNavigate()
 
@@ -53,52 +60,62 @@ const Content = (props) => {
         getData()
     }, [])
 
-    const handleChangeDate = async e => {
-        const selectedDate = new Date(e.target.value).getTime()
+    const handleChangeDate = async date => {
+        setSelectedDate(date)
         const now = new Date()
-        if (selectedDate < now.getTime()) {
-            createToast(toastTypes.ERROR, `Vui lòng chọn sau ngày ${now.toLocaleDateString()}!`)
-            setDisabledShifts(true)
-        } else {
-            setDisabledShifts(false)
-            const obj = {
-                staffId: doctor.id,
-                time: selectedDate
+        if (now.getFullYear() >= date.getFullYear()) {
+            if (now.getMonth() >= date.getMonth()) {
+                if (now.getDate() > date.getDate()) {
+                    const nowString = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`
+                    createToast(toastTypes.ERROR, `Vui lòng chọn sau ngày ${nowString}!`)
+                    setDisabledShifts(true)
+                }
             }
-            const params = queryString.stringify(obj)
-            const resShifts = await axiosInstance.searchNoAuth(`shift/available?${params}`)
-            console.log(resShifts)
-            setShifts(resShifts.data)
         }
+
+        setDisabledShifts(false)
+        const obj = {
+            staffId: doctor.id,
+            time: date.getTime()
+        }
+        const params = queryString.stringify(obj)
+        const resShifts = await axiosInstance.searchNoAuth(`shift/available?${params}`)
+        console.log(resShifts)
+        setShifts(resShifts.data)
+
+    }
+
+    const handleChangeDob = value => {
+        setDob(value)
     }
 
     const handleBooking = async values => {
+        console.log(convertStringsToNumbers(values.serviceIds))
         try {
             bookingDto = {
                 ...bookingDto,
                 staffId: Number(doctor.id),
-                bookingTime: new Date(values.bookingTime).getTime(),
+                bookingTime: selectedDate.getTime(),
                 shiftId: Number(values.shiftId),
-                serviceId: Number(values.serviceId),
+                serviceIds: convertStringsToNumbers(values.serviceIds),
                 patientFirstName: values.patientFirstName,
                 patientLastName: values.patientLastName,
                 patientEmail: values.patientEmail,
                 patientPhone: values.patientPhone,
-                patientDob: new Date(values.patientDob).getTime(),
+                patientDob: new Date(dob).getTime(),
                 patientAddress: values.patientAddress,
                 patientGender: Boolean(values.patientGender),
                 bookingType: 'BOOKING',
             }
             console.log(bookingDto)
-            const res = await axiosInstance.postNoAuth("booking", bookingDto)
-            createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
-            setTimeout(() => {
-                navigate("/booking-success")
-                window.location.reload()
-            }, 2000)
+            // const res = await axiosInstance.postNoAuth("booking", bookingDto)
+            // createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
+            // setTimeout(() => {
+            //     navigate("/booking-success")
+            //     window.location.reload()
+            // }, 2000)
         } catch (e) {
-            console.log(e.response.data.message)
-            createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
+            // createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
     }
 
@@ -146,11 +163,14 @@ const Content = (props) => {
                                     <div className="col-md-12 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Ngày tháng</label>
-                                            <input
-                                                {...register('bookingTime', {require: true})}
-                                                type="date"
+                                            <DatePicker
                                                 className="form-control"
-                                                onChange={handleChangeDate}/>
+                                                selected={selectedDate}
+                                                onChange={handleChangeDate}
+                                                dateFormat="dd/MM/yyyy"
+                                                minDate={new Date()}
+                                                isClearable
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -182,18 +202,23 @@ const Content = (props) => {
                             <h4 className="card-title">Chọn dịch vụ</h4>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <div className="day-slot">
-                                        <select  {...register('serviceId', {require: true})} className="form-control"
-                                                 id="exampleFormControlSelect1">
-                                            {services && services.map(service => (
-                                                <option
-                                                    value={service.id}
-                                                    key={service.id}>{service.name} (Giá: {service.price.toLocaleString('it-IT', {
+                                    <div className="day-slot overflow-auto" style={{maxHeight: 200}}>
+                                        {services && services.map(service => (
+                                            <div className="form-check">
+                                                <input
+                                                    {...register('serviceIds', {require: true})}
+                                                    className="form-check-input" type="checkbox" value={service.id}
+                                                    id={`checkbox${service.id}`}/>
+                                                <label className="form-check-label" htmlFor={`checkbox${service.id}`}>
+                                                    {service.name}
+                                                    (Giá: {service.price.toLocaleString('it-IT', {
                                                     style: 'currency',
                                                     currency: 'VND'
-                                                })}/ {service.unit})</option>
-                                            ))}
-                                        </select>
+                                                })}/ {service.unit})
+                                                </label>
+                                                <br/>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -239,8 +264,14 @@ const Content = (props) => {
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Ngày sinh</label>
-                                            <input type="date"  {...register('patientDob', {require: true})}
-                                                   className="form-control" required/>
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={dob}
+                                                onChange={handleChangeDob}
+                                                dateFormat="dd/MM/yyyy"
+                                                minDate={new Date()}
+                                                isClearable
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">

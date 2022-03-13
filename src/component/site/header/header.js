@@ -23,13 +23,13 @@ const Header = () => {
                         </span>
                     </a>
                     <a href="index-2.html" className="navbar-brand logo">
-                        <img src="assets/img/logo.png" className="img-fluid" alt="Logo" />
+                        <img src="/assets/img/logo.png" className="img-fluid" alt="Logo" />
                     </a>
                 </div>
                 <div className="main-menu-wrapper">
                     <div className="menu-header">
                         <a href="index-2.html" className="menu-logo">
-                            <img src="assets/img/logo.png" className="img-fluid" alt="Logo" />
+                            <img src="/assets/img/logo.png" className="img-fluid" alt="Logo" />
                         </a>
                         <a id="menu_close" className="menu-close" href="javascript:void(0);">
                             <i className="fas fa-times"></i>
