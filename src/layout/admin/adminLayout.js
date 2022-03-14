@@ -9,6 +9,7 @@ import Patients from '../../page/admin/Patient/Patients';
 import Profile from '../../page/admin/Profile/Profile';
 import Reports from '../../page/admin/Report/Report';
 import Reviews from '../../page/admin/Reviews/Reviews';
+import Service from '../../page/admin/Service/Service';
 import Transactions from '../../page/admin/Transaction/Transaction';
 
 const AdminLayout = () => {
@@ -25,6 +26,7 @@ const AdminLayout = () => {
           <Route path="reviews" element={<Reviews />}></Route>
           <Route path="transactions" element={<Transactions />}></Route>
           <Route path="profile" element={<Profile />}></Route>
+          <Route path="services" element={<Service />}></Route>
           <Route path="report" element={<Reports />}></Route>
         </Routes>
       </div>

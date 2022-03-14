@@ -25,6 +25,9 @@ const Sidebar = () => {
                             <Link to="patients"><i className="fe fe-user" /> <span>Patients</span></Link>
                         </li>
                         <li>
+                            <Link to="services"><i className="fe fe-star-o" /> <span>Service</span></Link>
+                        </li>
+                        <li>
                             <Link to="reviews"><i className="fe fe-star-o" /> <span>Reviews</span></Link>
                         </li>
                         <li>
