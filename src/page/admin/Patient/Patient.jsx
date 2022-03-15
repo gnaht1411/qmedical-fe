@@ -5,12 +5,16 @@ import { Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
 
-const Report = () => {
+const Patient = () => {
     const columns = [
         {
             title: 'Tên bệnh nhân',
             dataIndex: 'lastName',
             sorter: (a, b) => a.lastName.localeCompare(b.lastName),
+        },
+        {
+            title: 'Ngày sinh',
+            dataIndex: 'dob',
         },
         {
             title: 'Điện thoại',
@@ -23,12 +27,11 @@ const Report = () => {
             sorter: (a, b) => a.gender.localeCompare(b.gender),
         },
         {
-            title: 'Tổng tiền',
-            dataIndex: 'amount',
-            sorter: (a, b) => {
-                return a.amount > b.amount
-            }
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            sorter: (a, b) => a.address.localeCompare(b.address),
         },
+
         {
             title: 'Action',
             dataIndex: '',
@@ -70,4 +73,4 @@ const Report = () => {
     );
 }
 
-export default Report;
+export default Patient;
