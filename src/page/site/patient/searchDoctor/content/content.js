@@ -33,7 +33,7 @@ const Content = (props) => {
 
                         <div className="card search-filter">
                             <div className="card-header">
-                                <h4 className="card-title mb-0">Search Filter</h4>
+                                <h4 className="card-title mb-0">Lọc</h4>
                             </div>
                             <form onSubmit={handleSubmit(handleSubmitForm)} className="card-body">
                                 <div className="filter-widget">
@@ -45,7 +45,7 @@ const Content = (props) => {
                                     </div>
                                 </div>
                                 <div className="filter-widget">
-                                    <h4>Gender</h4>
+                                    <h4>Bằng cấp</h4>
                                     <div>
                                         <label className="form-check">
                                             <input
@@ -85,7 +85,7 @@ const Content = (props) => {
                                 </div>
 
                                 <div className="btn-search">
-                                    <button type="submit" className="btn btn-block">Search</button>
+                                    <button type="submit" className="btn btn-block">Tìm kiếm</button>
                                 </div>
                             </form>
                         </div>
@@ -164,22 +164,22 @@ const Content = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="doc-info-right">
-                                            <div className="clini-infos">
-                                                <ul>
-                                                    <li><i className="far fa-thumbs-up"></i> 98%</li>
-                                                    <li><i className="far fa-comment"></i> 17 Feedback</li>
-                                                    <li><i className="fas fa-map-marker-alt"></i> Florida, USA</li>
-                                                    <li><i className="far fa-money-bill-alt"></i> $300 - $1000 <i
-                                                        className="fas fa-info-circle" data-toggle="tooltip"
-                                                        title="Lorem Ipsum"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div className="clinic-booking">
-                                                <a className="view-pro-btn" href="doctor-profile.html">View Profile</a>
-                                                <a className="apt-btn" href="booking.html">Book Appointment</a>
-                                            </div>
-                                        </div>
+                                        {/*<div className="doc-info-right">*/}
+                                        {/*    <div className="clini-infos">*/}
+                                        {/*        <ul>*/}
+                                        {/*            <li><i className="far fa-thumbs-up"></i> 98%</li>*/}
+                                        {/*            <li><i className="far fa-comment"></i> 17 Feedback</li>*/}
+                                        {/*            <li><i className="fas fa-map-marker-alt"></i> Florida, USA</li>*/}
+                                        {/*            <li><i className="far fa-money-bill-alt"></i> $300 - $1000 <i*/}
+                                        {/*                className="fas fa-info-circle" data-toggle="tooltip"*/}
+                                        {/*                title="Lorem Ipsum"></i></li>*/}
+                                        {/*        </ul>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="clinic-booking">*/}
+                                        {/*        <a className="view-pro-btn" href="doctor-profile.html">View Profile</a>*/}
+                                        {/*        <a className="apt-btn" href="booking.html">Book Appointment</a>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>

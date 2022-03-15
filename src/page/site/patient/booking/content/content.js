@@ -112,10 +112,15 @@ const Content = (props) => {
             const res = await axiosInstance.postNoAuth("booking", bookingDto)
             createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
             setTimeout(() => {
-                navigate("/booking-success")
+                navigate(
+                    "/booking-success",
+                    {
+                        state: {
+                            bookingSuccessResponse: res.data
+                        }
+                    })
                 // window.location.reload()
             }, 2000)
-            console.log(res)
         } catch (e) {
             createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
@@ -131,7 +136,8 @@ const Content = (props) => {
                                 <div className="card-body">
                                     <div className="booking-doc-info">
                                         <a href="doctor-profile.html" className="booking-doc-img">
-                                            <img src="/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image"/>
+                                            <img src={doctor.img || '/assets/img/doctors/doctor-thumb-02.jpg'}
+                                                 alt="User Image"/>
                                         </a>
                                         <div className="booking-info">
                                             <h4><a
@@ -236,7 +242,7 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Họ</label>
                                             <input
-                                                className="form-control" {...register('patientLastName', {require: true})}
+                                                className="form-control" {...register('patientFirstName', {require: true})}
                                                 type="text"/>
                                         </div>
                                     </div>
@@ -244,7 +250,7 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Tên</label>
                                             <input
-                                                className="form-control" {...register('patientFirstName', {require: true})}
+                                                className="form-control" {...register('patientLastName', {require: true})}
                                                 type="text"/>
                                         </div>
                                     </div>
