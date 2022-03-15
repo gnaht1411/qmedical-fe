@@ -34,38 +34,38 @@ function AdminLayout(props) {
                 <div className="logo" />
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
-                        <span>Dashboard</span>
+                        <span>Bảng điều khiển</span>
                         <Link to="/admin/dashboard" />
                     </Menu.Item>
                     <Menu.Item key="2" icon={<MenuOutlined />}>
-                        <span>Appointment</span>
+                        <span>Lịch đặt</span>
                         <Link to="/admin/appointment" />
                     </Menu.Item>
                     <Menu.Item key="3" icon={<TagOutlined />}>
-                        <span>Doctor</span>
+                        <span>Bác sĩ</span>
                         <Link to="/admin/doctor" />
                     </Menu.Item>
                     <Menu.Item key="8" icon={<UserOutlined />}>
-                        <span>Patient</span>
+                        <span>Bệnh nhân</span>
                         <Link to="/admin/patient" />
                     </Menu.Item>
-                    <SubMenu key="sub1" icon={<LineChartOutlined />} title="Service">
+                    <SubMenu key="sub1" icon={<LineChartOutlined />} title="Dịch vụ">
                         <Menu.Item key="4">
                             Danh sách
                             <Link to="/admin/service" />
                         </Menu.Item>
                         <Menu.Item key="5">
-                            Add new service
+                            Thêm mới dịch vụ
                             <Link to="/admin/service/add" />
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub2" icon={<EditOutlined />} title="Report">
+                    <SubMenu key="sub2" icon={<EditOutlined />} title="Báo cáo">
                         <Menu.Item key="6">
                             Danh sách
                             <Link to="/admin/report" />
                         </Menu.Item>
                         <Menu.Item key="7">
-                            Invoice Report
+                            Báo cáo hóa đơn
                             <Link to="/admin/reports" />
                         </Menu.Item>
                     </SubMenu>
