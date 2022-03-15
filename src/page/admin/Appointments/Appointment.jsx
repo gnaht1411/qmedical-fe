@@ -21,18 +21,13 @@ const Appointment = () => {
     const columns = [
         {
             title: 'Tên bệnh nhân',
-            dataIndex: 'patientLastName',
-            sorter: (a, b) => a.patientLastName.localeCompare(b.patientLastName),
+            dataIndex: 'patientName',
+            sorter: (a, b) => a.patientName.localeCompare(b.patientName),
         },
         {
-            title: 'Số ĐT',
+            title: 'Số ĐT bệnh nhân',
             dataIndex: 'patientPhone',
 
-        },
-        {
-            title: 'Tên bác sĩ',
-            dataIndex: 'staffLastName',
-            sorter: (a, b) => a.staffLastName.localeCompare(b.staffLastName),
         },
         {
             title: 'Thời gian',
@@ -44,6 +39,21 @@ const Appointment = () => {
             sorter: (a, b) => a.status.localeCompare(b.status),
         },
         {
+            title: 'Ca',
+            dataIndex: 'shift',
+            sorter: (a, b) => a.shift.localeCompare(b.shift),
+        },
+        {
+            title: 'Tên bác sĩ',
+            dataIndex: 'doctorName',
+            sorter: (a, b) => a.doctorName.localeCompare(b.doctorName),
+        },
+        {
+            title: 'Số ĐT bác sĩ',
+            dataIndex: 'doctorPhone',
+
+        },
+        {
             title: 'Action',
             dataIndex: '',
             key: 'x',
@@ -53,7 +63,7 @@ const Appointment = () => {
         },
     ];
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
     const [item, setItem] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -68,7 +78,7 @@ const Appointment = () => {
                 const res = await axiosInstance.search(url);
 
                 console.log(res);
-                setData(res.data);
+                setData(res.data.data);
                 console.log('end');
             } catch (error) {
                 createToast(toastTypes.ERROR, `Error !!!!`)
@@ -98,7 +108,7 @@ const Appointment = () => {
                 </Space> */}
                 <Divider />
                 <Table loading={loading} columns={columns} dataSource={data} />
-                <CommonForm fields={columns} item={item} openModal={openModal} onCloseModal={onCloseModal} />
+                {/* <CommonForm fields={columns} item={item} openModal={openModal} onCloseModal={onCloseModal} /> */}
             </div>
         </Content>
     );
