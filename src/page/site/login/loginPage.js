@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useState} from "react";
 import axios from "axios";
 import createToast from "../../../component/site/toast/toast";
@@ -65,7 +65,7 @@ const LoginPage = () => {
                                                 <span className="text-danger">Password is required!</span>}
                                         </div>
                                         <div className="text-right">
-                                            <a className="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                            <Link className="forgot-link" to="/forgot-password">Forgot Password ?</Link>
                                         </div>
                                         <button className="btn btn-primary btn-block btn-lg login-btn"
                                                 type="submit">Login

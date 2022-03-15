@@ -10,6 +10,7 @@ import ChangePassword from "../../page/site/changePassword/changePassword";
 import BookingPage from "../../page/site/patient/booking/booking";
 import DoctorDashboardPage from "../../page/site/doctor/dashboard/dashboard";
 import BookingSuccessPage from "../../page/site/patient/bookingSuccess/bookingSuccess";
+import ForgotPassword from "../../page/site/forgotPassword/forgotPassword";
 
 const SiteLayout = () => {
     return (
@@ -26,6 +27,7 @@ const SiteLayout = () => {
                         <Route path="booking/:doctorId" element={<BookingPage/>}/>
                         <Route path="doctor" element={DoctorDashboardPage}/>
                         <Route path="booking-success" element={<BookingSuccessPage/>}/>
+                        <Route path="forgot-password" element={<ForgotPassword/>}/>
                     </Routes>
                 </div>
             </div>

@@ -22,7 +22,7 @@ const search = url => {
     return axiosInstance.get(url, getConfig())
 }
 
-const searchNoAuth = url => (
+const getNoAuth = url => (
     axiosInstance.get(`/no-auth/${url}`)
 )
 
@@ -36,7 +36,7 @@ const getService = () => {
 
 export default {
     search,
-    searchNoAuth,
+    getNoAuth,
     postNoAuth,
     getService
 }
