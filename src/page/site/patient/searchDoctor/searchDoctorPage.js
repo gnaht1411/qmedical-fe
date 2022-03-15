@@ -1,6 +1,6 @@
 import Breadcrumb from "./breadcrumb/breadcrumb";
 import Content from "./content/content";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../../../api/axiosInstance";
 import queryString from "query-string";
 
@@ -42,7 +42,7 @@ const SearchDoctorPage = () => {
             setLoading(true)
             setTimeout(async () => {
                 const url = `doctor/search?${queryString.stringify(params)}`;
-                const res = await axiosInstance.searchNoAuth(url)
+                const res = await axiosInstance.getNoAuth(url)
                 console.log("url:", url)
                 console.log("getDoctor():", res)
                 setTotalElements(res.data.totalElements)

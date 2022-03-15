@@ -1,18 +1,18 @@
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Breadcrumb from "./breadcrumb/breadcrumb";
 import Content from "./content/content";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../../../api/axiosInstance";
 
 const BookingPage = () => {
 
     const [doctor, setDoctor] = useState()
 
-    const {doctorId} = useParams();
+    const { doctorId } = useParams();
 
     useEffect(() => {
         const initData = async () => {
-            const resDoctor = await axiosInstance.searchNoAuth(`doctor/${doctorId}`)
+            const resDoctor = await axiosInstance.getNoAuth(`doctor/${doctorId}`)
             setDoctor(resDoctor.data)
             console.log("res:", resDoctor.data)
         }
@@ -21,7 +21,7 @@ const BookingPage = () => {
 
     return (
         <>
-            <Breadcrumb/>
+            <Breadcrumb />
             <Content
                 doctor={doctor}
             />
