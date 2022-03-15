@@ -5,12 +5,28 @@ import { Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
 
-const Report = () => {
+const Doctor = () => {
     const columns = [
         {
-            title: 'Tên bệnh nhân',
+            title: 'Hình ảnh',
+            dataIndex: 'img',
+            render: (item) =>
+                <>
+                    <img style={{ width: '200px', height: 'auto' }} src={item} alt='' />
+                </>
+        },
+        {
+            title: 'Tên bác sĩ',
             dataIndex: 'lastName',
             sorter: (a, b) => a.lastName.localeCompare(b.lastName),
+        },
+        {
+            title: 'Số năm kinh nghiệm',
+            dataIndex: 'experience',
+            sorter: (a, b) => {
+                return a.experience > b.experience;
+            }
+
         },
         {
             title: 'Điện thoại',
@@ -23,11 +39,9 @@ const Report = () => {
             sorter: (a, b) => a.gender.localeCompare(b.gender),
         },
         {
-            title: 'Tổng tiền',
-            dataIndex: 'amount',
-            sorter: (a, b) => {
-                return a.amount > b.amount
-            }
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            sorter: (a, b) => a.status.localeCompare(b.status),
         },
         {
             title: 'Action',
@@ -70,4 +84,4 @@ const Report = () => {
     );
 }
 
-export default Report;
+export default Doctor;
