@@ -5,10 +5,15 @@ const axiosInstance = axios.create({
 })
 
 const getConfig = () => {
+    const accessToken = localStorage.getItem("accessToken")
+    console.log(typeof accessToken)
+    const author = 'Bearer ' + accessToken.substring(1, accessToken.length - 1)
+    console.log(author)
+    console.log(localStorage.getItem("accessToken"))
     return {
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": "Bearer " + localStorage.getItem("accessToken")
+            "Authorization": `${author}`
         }
     }
 }

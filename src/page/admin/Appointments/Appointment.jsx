@@ -1,9 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Divider, message, Form, Select } from 'antd';
-import { EyeFilled, EyeInvisibleOutlined, SearchOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
+import React, {useCallback, useEffect, useState} from 'react'
+import {Button, Divider, message, Form, Select} from 'antd';
+import {EyeFilled, EyeInvisibleOutlined, SearchOutlined} from '@ant-design/icons';
+import {Table} from 'antd';
+import {Content} from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
+import axiosInstance from "../../../api/axiosInstance";
+import queryString from "query-string";
+
+
+const pageReq = {
+    page: 0,
+    pageSize: 10
+}
 
 const Appointment = () => {
 
@@ -37,7 +45,7 @@ const Appointment = () => {
             dataIndex: '',
             key: 'x',
             render: (item) => <>
-                <Button type='primary' icon={item.display === 1 ? <EyeFilled /> : <EyeInvisibleOutlined />}></Button>
+                <Button type='primary' icon={item.display === 1 ? <EyeFilled/> : <EyeInvisibleOutlined/>}></Button>
             </>,
         },
     ];
@@ -46,6 +54,17 @@ const Appointment = () => {
     const [item, setItem] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const getBookingPendingList = async () => {
+            const params = queryString.stringify(pageReq)
+            const url = `booking/search?${params}`
+            const res = await axiosInstance.search(url)
+            console.log(res)
+            setData(res.data)
+        }
+        getBookingPendingList()
+    })
 
     const onOpenModal = () => {
         setOpenModal(true);
@@ -57,16 +76,16 @@ const Appointment = () => {
     }
 
     return (
-        <Content style={{ margin: '0 16px' }}>
-            <BreadCrumd title='Dịch vụ' subtitle='Danh sách' />
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        <Content style={{margin: '0 16px'}}>
+            <BreadCrumd title='Lịch đặt' subtitle='Danh sách'/>
+            <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                 {/* <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
                     <Button type="primary" htmlType="submit" icon={<PlusOutlined />} onClick={onOpenModal}>
                         Thêm dịch vụ
                     </Button>
                 </Space> */}
-                <Divider />
-                <Table columns={columns} dataSource={data} />
+                <Divider/>
+                <Table columns={columns} dataSource={data}/>
                 {/* <CommonForm fields={columns} item={item} openModal={openModal} onCloseModal={onCloseModal} /> */}
             </div>
         </Content>

@@ -71,7 +71,7 @@ function AdminLayout(props) {
                     </SubMenu>
                     <Menu.Item key="10" icon={<PieChartOutlined />}>
                         <span>Đăng xuất</span>
-                        <Link to="#" />
+                        <Link to="/login" />
                     </Menu.Item>
                 </Menu>
             </Sider>
