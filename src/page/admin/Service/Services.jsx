@@ -67,7 +67,7 @@ const Services = () => {
     }
 
     useEffect(() => {
-
+        console.log("GET SẺVICE")
         const getServices = async () => {
             setLoading(true);
             try {

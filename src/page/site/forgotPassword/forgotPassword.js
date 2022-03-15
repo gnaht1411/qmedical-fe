@@ -9,11 +9,12 @@ const ForgotPassword = () => {
 
     const handleSubmitForm = async values => {
         try {
-            const res = await axiosInstance.getNoAuth(`reset-password?email=${values}`)
+            const res = await axiosInstance.getNoAuth(`reset-password?email=${values.email}`)
             console.log(res)
+            createToast(toastTypes.SUCCESS, "Đổi mật khẩu thành công! Vui lòng kiểm tra email!")
 
         } catch (e) {
-            createToast(toastTypes.ERROR, )
+            createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
     }
 
