@@ -9,7 +9,7 @@ const Footer = () => {
 
                           <div className="footer-widget footer-about">
                               <div className="footer-logo">
-                                  <img src="assets/img/footer-logo.png" alt="logo" />
+                                  <img src="/assets/img/footer-logo.png" alt="logo" />
                               </div>
                               <div className="footer-about-content">
                                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -35,11 +35,9 @@ const Footer = () => {
                                   </div>
                               </div>
                           </div>
-
                       </div>
 
                       <div className="col-lg-3 col-md-6">
-
                           <div className="footer-widget footer-menu">
                               <h2 className="footer-title">For Patients</h2>
                               <ul>
@@ -94,16 +92,13 @@ const Footer = () => {
                                   </p>
                               </div>
                           </div>
-
                       </div>
-
                   </div>
               </div>
           </div>
 
           <div className="footer-bottom">
               <div className="container-fluid">
-
                   <div className="copyright">
                       <div className="row">
                           <div className="col-md-6 col-lg-6">
@@ -112,18 +107,15 @@ const Footer = () => {
                               </div>
                           </div>
                           <div className="col-md-6 col-lg-6">
-
                               <div className="copyright-menu">
                                   <ul className="policy-menu">
                                       <li><a href="term-condition.html">Terms and Conditions</a></li>
                                       <li><a href="privacy-policy.html">Policy</a></li>
                                   </ul>
                               </div>
-
                           </div>
                       </div>
                   </div>
-
               </div>
           </div>
       </footer>

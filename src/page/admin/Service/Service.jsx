@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../api/axiosInstance';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import createToast from '../../../component/site/toast/toast';
 import toastTypes from '../../../common/constants/toast/toastTypes';
 
@@ -9,11 +7,13 @@ const Service = () => {
 
     const [services, setServices] = useState([]);
 
+    console.log("123")
+
     useEffect(() => {
 
         const getServices = async () => {
             try {
-                const resServices = await axiosInstance.getService()
+                const resServices = await axiosInstance.searchNoAuth("service/no-page")
                 setServices(resServices.data)
             } catch (e) {
                 createToast(toastTypes.ERROR, `Error !!!!`)
@@ -21,17 +21,6 @@ const Service = () => {
         }
         getServices();
     }, []);
-
-    // async function getServices() {
-    //     try {
-    //         // const res = await axiosInstance.getService();
-    //         const res = await axios.get('http://localhost:8888/api/no-auth/service/no-page');
-    //         setServices(res.data);
-    //         console.log('data : ', services);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
 
     return (

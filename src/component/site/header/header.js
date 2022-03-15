@@ -37,10 +37,10 @@ const Header = () => {
                     </div>
                     <ul className="main-nav">
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/">Trang chủ</Link>
                         </li>
                         <li className="has-submenu">
-                            <a href="#">Doctors <i className="fas fa-chevron-down"></i></a>
+                            <a href="#">Bác sĩ <i className="fas fa-chevron-down"></i></a>
                             <ul className="submenu">
                                 <li><Link to="doctor">Doctor Dashboard</Link></li>
                                 <li><a href="appointments.html">Appointments</a></li>
@@ -55,9 +55,9 @@ const Header = () => {
                             </ul>
                         </li>
                         <li className="has-submenu">
-                            <a href="#">Patients <i className="fas fa-chevron-down"></i></a>
+                            <a href="#">Bệnh nhân <i className="fas fa-chevron-down"></i></a>
                             <ul className="submenu">
-                                <li><Link to="search-doctor">Search Doctor</Link></li>
+                                <li><Link to="search-doctor">Tìm kiếm bác sĩ</Link></li>
                                 <li><a href="doctor-profile.html">Doctor Profile</a></li>
                                 <li><a href="booking.html">Booking</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>
@@ -69,33 +69,33 @@ const Header = () => {
                                 <li><a href="change-password.html">Change Password</a></li>
                             </ul>
                         </li>
-                        <li className="has-submenu active">
-                            <a href="#">Pages <i className="fas fa-chevron-down"></i></a>
-                            <ul className="submenu">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="search.html">Search Doctors</a></li>
-                                <li><a href="calendar.html">Calendar</a></li>
-                                <li><a href="components.html">Components</a></li>
-                                <li className="has-submenu">
-                                    <a href="invoices.html">Invoices</a>
-                                    <ul className="submenu">
-                                        <li><a href="invoices.html">Invoices</a></li>
-                                        <li><a href="invoice-view.html">Invoice View</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="blank-page.html">Starter Page</a></li>
-                                <li className="active">
-                                    <Link to="/login">Login</Link></li>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="forgot-password.html">Forgot Password</a></li>
-                            </ul>
-                        </li>
+                        {/*<li className="has-submenu active">*/}
+                        {/*    <a href="#">Pages <i className="fas fa-chevron-down"></i></a>*/}
+                        {/*    <ul className="submenu">*/}
+                        {/*        <li><a href="voice-call.html">Voice Call</a></li>*/}
+                        {/*        <li><a href="video-call.html">Video Call</a></li>*/}
+                        {/*        <li><a href="search.html">Search Doctors</a></li>*/}
+                        {/*        <li><a href="calendar.html">Calendar</a></li>*/}
+                        {/*        <li><a href="components.html">Components</a></li>*/}
+                        {/*        <li className="has-submenu">*/}
+                        {/*            <a href="invoices.html">Invoices</a>*/}
+                        {/*            <ul className="submenu">*/}
+                        {/*                <li><a href="invoices.html">Invoices</a></li>*/}
+                        {/*                <li><a href="invoice-view.html">Invoice View</a></li>*/}
+                        {/*            </ul>*/}
+                        {/*        </li>*/}
+                        {/*        <li><a href="blank-page.html">Starter Page</a></li>*/}
+                        {/*        <li className="active">*/}
+                        {/*            <Link to="/login">Login</Link></li>*/}
+                        {/*        <li><a href="register.html">Register</a></li>*/}
+                        {/*        <li><a href="forgot-password.html">Forgot Password</a></li>*/}
+                        {/*    </ul>*/}
+                        {/*</li>*/}
                         <li>
                             <Link to="admin">Admin</Link>
                         </li>
                         <li className="login-link">
-                            <a href="login.html">Login / Signup</a>
+                            <a href="login.html">Đăng nhập / Đăngn ký</a>
                         </li>
                     </ul>
                 </div>

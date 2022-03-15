@@ -106,16 +106,18 @@ const Content = (props) => {
                 patientAddress: values.patientAddress,
                 patientGender: Boolean(values.patientGender),
                 bookingType: 'BOOKING',
+                note: values.note,
             }
             console.log(bookingDto)
-            // const res = await axiosInstance.postNoAuth("booking", bookingDto)
-            // createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
-            // setTimeout(() => {
-            //     navigate("/booking-success")
-            //     window.location.reload()
-            // }, 2000)
+            const res = await axiosInstance.postNoAuth("booking", bookingDto)
+            createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
+            setTimeout(() => {
+                navigate("/booking-success")
+                // window.location.reload()
+            }, 2000)
+            console.log(res)
         } catch (e) {
-            // createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
+            createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
     }
 
@@ -138,17 +140,19 @@ const Content = (props) => {
                                             <span className="doc-speciality">
                                                     Ngày sinh: {new Date(doctor.dob).toLocaleDateString()} <br/>
                                                     Kinh nghiệm: {doctor.experience}</span>
-                                            <div className="rating">
-                                                <i className="fas fa-star filled"></i>
-                                                <i className="fas fa-star filled"></i>
-                                                <i className="fas fa-star filled"></i>
-                                                <i className="fas fa-star filled"></i>
-                                                <i className="fas fa-star"></i>
-                                                <span className="d-inline-block average-rating">35</span>
-                                            </div>
-                                            <p className="text-muted mb-0"><i
-                                                className="fas fa-map-marker-alt"></i> {doctor.degree}
-                                            </p>
+                                            {/*<div className="rating">*/}
+                                            {/*    <i className="fas fa-star filled"></i>*/}
+                                            {/*    <i className="fas fa-star filled"></i>*/}
+                                            {/*    <i className="fas fa-star filled"></i>*/}
+                                            {/*    <i className="fas fa-star filled"></i>*/}
+                                            {/*    <i className="fas fa-star"></i>*/}
+                                            {/*    <span className="d-inline-block average-rating">35</span>*/}
+                                            {/*</div>*/}
+                                            {doctor.degrees && doctor.degrees.map(degree => (
+                                                <p className="text-muted mb-0"><i
+                                                    className="fas fa-map-marker-alt"></i> {degree}
+                                                </p>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +208,7 @@ const Content = (props) => {
                                 <div className="col-md-12">
                                     <div className="day-slot overflow-auto" style={{maxHeight: 200}}>
                                         {services && services.map(service => (
-                                            <div className="form-check">
+                                            <span className="form-check">
                                                 <input
                                                     {...register('serviceIds', {require: true})}
                                                     className="form-check-input" type="checkbox" value={service.id}
@@ -217,7 +221,7 @@ const Content = (props) => {
                                                 })}/ {service.unit})
                                                 </label>
                                                 <br/>
-                                            </div>
+                                            </span>
                                         ))}
                                     </div>
                                 </div>
@@ -230,17 +234,17 @@ const Content = (props) => {
                                 <div className="row">
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
-                                            <label>Tên</label>
+                                            <label>Họ</label>
                                             <input
-                                                className="form-control" {...register('patientFirstName', {require: true})}
+                                                className="form-control" {...register('patientLastName', {require: true})}
                                                 type="text"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
-                                            <label>Họ</label>
+                                            <label>Tên</label>
                                             <input
-                                                className="form-control" {...register('patientLastName', {require: true})}
+                                                className="form-control" {...register('patientFirstName', {require: true})}
                                                 type="text"/>
                                         </div>
                                     </div>
@@ -261,19 +265,7 @@ const Content = (props) => {
                                                 type="text"/>
                                         </div>
                                     </div>
-                                    <div className="col-md-6 col-sm-12">
-                                        <div className="form-group card-label">
-                                            <label>Ngày sinh</label>
-                                            <DatePicker
-                                                className="form-control"
-                                                selected={dob}
-                                                onChange={handleChangeDob}
-                                                dateFormat="dd/MM/yyyy"
-                                                minDate={new Date()}
-                                                isClearable
-                                            />
-                                        </div>
-                                    </div>
+
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Địa chỉ</label>
@@ -283,24 +275,50 @@ const Content = (props) => {
                                         </div>
                                     </div>
 
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group card-label">
+                                            <label>Ghi chú</label>
+                                            <input
+                                                className="form-control" {...register('note', {require: true})}
+                                                type="text"/>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="form-group">
+                                            <label>Ngày sinh</label>
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={dob}
+                                                onChange={handleChangeDob}
+                                                dateFormat="dd/MM/yyyy"
+                                                isClearable
+                                            />
+                                        </div>
+                                    </div>
+
 
                                     <div className="col-md-6 col-sm-12">
                                         <label>Giới tính</label>
 
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="gender" value={true}
-                                                   defaultChecked={true}
-                                                   id="male" {...register('patientGender', {require: true})}/>
-                                            <label className="form-check-label" htmlFor="male">
-                                                Nam
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="gender" value={false}
-                                                   id="female" {...register('patientGender', {require: true})}/>
-                                            <label className="form-check-label" htmlFor="female">
-                                                Nữ
-                                            </label>
+                                        <div className="form-group">
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="gender"
+                                                       value={true}
+                                                       defaultChecked={true}
+                                                       id="male" {...register('patientGender', {require: true})}/>
+                                                <label className="form-check-label" htmlFor="male">
+                                                    Nam
+                                                </label>
+                                            </div>
+                                            <div className="form-check form-check-inline">
+                                                <input className="form-check-input" type="radio" name="gender"
+                                                       value={false}
+                                                       id="female" {...register('patientGender', {require: true})}/>
+                                                <label className="form-check-label" htmlFor="female">
+                                                    Nữ
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
 
