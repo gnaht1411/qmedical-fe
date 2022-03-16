@@ -71,7 +71,7 @@ const Services = () => {
         const getServices = async () => {
             setLoading(true);
             try {
-                const resServices = await axiosInstance.searchNoAuth("service/no-page")
+                const resServices = await axiosInstance.getNoAuth("service/no-page")
                 setData(resServices.data)
             } catch (e) {
                 createToast(toastTypes.ERROR, `Error !!!!`)

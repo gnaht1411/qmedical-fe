@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../../../api/axiosInstance";
 
 const Popular = () => {
@@ -7,7 +7,7 @@ const Popular = () => {
 
     useEffect(() => {
         const getDoctors = async () => {
-            const res = await axiosInstance.searchNoAuth("/staff/doctor/no-page")
+            const res = await axiosInstance.getNoAuth("/staff/doctor/no-page")
             console.log(res)
             setDoctors(res.data)
         }
@@ -43,7 +43,7 @@ const Popular = () => {
                                     <div className="doc-img">
                                         <a href="doctor-profile.html">
                                             <img className="img-fluid" alt="User Image"
-                                                 src="assets/img/doctors/doctor-01.jpg"/>
+                                                src="assets/img/doctors/doctor-01.jpg" />
                                         </a>
                                         <a href="javascript:void(0)" className="fav-btn">
                                             <i className="far fa-bookmark"></i>
@@ -73,7 +73,7 @@ const Popular = () => {
                                             <li>
                                                 <i className="far fa-money-bill-alt"></i> $300 - $1000
                                                 <i className="fas fa-info-circle" data-toggle="tooltip"
-                                                   title="Lorem Ipsum"></i>
+                                                    title="Lorem Ipsum"></i>
                                             </li>
                                         </ul>
                                         <div className="row row-sm">
@@ -94,7 +94,7 @@ const Popular = () => {
                 </div>
             </div>
         </section>
-)
+    )
 }
 
 export default Popular
