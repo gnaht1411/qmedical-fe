@@ -54,10 +54,6 @@ function AdminLayout(props) {
                             Danh sách
                             <Link to="/admin/service" />
                         </Menu.Item>
-                        <Menu.Item key="5">
-                            Thêm mới dịch vụ
-                            <Link to="/admin/service/add" />
-                        </Menu.Item>
                     </SubMenu>
                     <SubMenu key="sub2" icon={<EditOutlined />} title="Báo cáo">
                         <Menu.Item key="6">

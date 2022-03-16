@@ -30,10 +30,23 @@ const postNoAuth = (url, body) => (
     axiosInstance.post(`/no-auth/${url}`, body)
 )
 
+const postService = url => {
+    return axiosInstance.post(url);
+}
 
+const putService = url => {
+    return axiosInstance.put(url, getConfig());
+}
+
+const deleteService = url => {
+    return axiosInstance.delete(url, getConfig());
+}
 
 export default {
     search,
     getNoAuth,
     postNoAuth,
+    postService,
+    deleteService,
+    putService
 }
