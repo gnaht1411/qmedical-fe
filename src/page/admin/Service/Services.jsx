@@ -128,7 +128,7 @@ const Services = () => {
         if (item?.id) {
             try {
                 console.log('edit : ', item.id);
-                const res = await axiosInstance.postService(`/service/${item.id}`, item);
+                const res = await axiosInstance.postService(`/service/${item.id}`);
                 console.log('res Edit :', res);
                 getServices();
                 message.success(res.data.message)
@@ -139,7 +139,7 @@ const Services = () => {
             }
         } else {
             try {
-                const res = await axiosInstance.postService(`/service`, item);
+                const res = await axiosInstance.postService(`/service`);
                 console.log('res Add :', res);
                 getServices();
                 message.success(res.data.message)
