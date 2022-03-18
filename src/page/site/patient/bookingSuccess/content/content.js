@@ -36,7 +36,7 @@ const Content = (props) => {
                                     <ul className="booking-date">
                                         {/*<li>ID<span>{res.id}</span></li>*/}
                                         <li>Tình trạng<span>{bookingUtils.getBookingStatus(res.status)}</span></li>
-                                        <li>Bác sĩ <span>{res.doctorName}</span></li>
+                                        {res.doctorName && <li>Bác sĩ <span>{res.doctorName}</span></li>}
                                         <li>Thời
                                             gian<span>{new Date(res.bookingTime).toLocaleDateString('vi-VN')}</span>
                                         </li>

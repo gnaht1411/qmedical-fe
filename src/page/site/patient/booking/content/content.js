@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axiosInstance from "../../../../../api/axiosInstance";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import toastTypes from "../../../../../common/constants/toast/toastTypes";
 import createToast from "../../../../../component/site/toast/toast";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import queryString from "query-string";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DatePicker from 'react-datepicker'
+import Select from 'react-select'
+
 
 let bookingDto = {
     id: null,
@@ -31,17 +33,19 @@ const convertStringsToNumbers = data => {
 
 const Content = (props) => {
 
-    const { doctor } = props
+    // const {doctor} = props
 
     const [selectedDate, setSelectedDate] = useState(null);
 
     const [shifts, setShifts] = useState()
 
-    const [services, setServices] = useState()
+    const [options, setOptions] = useState()
 
-    const [disabledShifts, setDisabledShifts] = useState(true)
+    const [serviceIds, setServiceIds] = useState()
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const [disabled, setDisabled] = useState(false)
+
+    const {register, handleSubmit, formState: {errors}} = useForm()
 
     const [dob, setDob] = useState()
 
@@ -51,9 +55,26 @@ const Content = (props) => {
         const getData = async () => {
             try {
                 const resServices = await axiosInstance.getNoAuth("service/no-page")
-                setServices(resServices.data)
+                if (resServices)
+                    setOptions(resServices.data.map(service => {
+                        if (!service) return false;
+                        return ({
+                            value: Number(service.id),
+                            label: `${service.name}(Giá: ${service.price.toLocaleString('it-IT', {
+                                style: 'currency',
+                                currency: 'VND'
+                            })}/ ${service.unit})`
+                        })
+                    }))
+
+                const resShifts = await axiosInstance.getNoAuth("shift/no-page")
+                if (resShifts) {
+                    setShifts(resShifts.data)
+                }
+
+
             } catch (e) {
-                toast(toastTypes.ERROR, e.message)
+                createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
             }
         }
 
@@ -68,20 +89,28 @@ const Content = (props) => {
                 if (now.getDate() > date.getDate()) {
                     const nowString = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`
                     createToast(toastTypes.ERROR, `Vui lòng chọn sau ngày ${nowString}!`)
-                    setDisabledShifts(true)
+                    setDisabled(true)
                 }
             }
         }
 
-        setDisabledShifts(false)
-        const obj = {
-            staffId: doctor.id,
-            time: date.getTime()
-        }
-        const params = queryString.stringify(obj)
-        const resShifts = await axiosInstance.getNoAuth(`shift/available?${params}`)
-        console.log(resShifts)
-        setShifts(resShifts.data)
+        // setDisabledShifts(false)
+        // const obj = {
+        //     // staffId: doctor.id,
+        //     time: date.getTime()
+        // }
+        // const params = queryString.stringify(obj)
+        // const resShifts = await axiosInstance.getNoAuth(`shift/available?${params}`)
+        // console.log(resShifts)
+        // setShifts(resShifts.data)
+
+    }
+
+    const setServices = values => {
+        console.log(values)
+        setServiceIds(values.map(service => service.value))
+        // console.log(selectedOptions.map(option => option.value));
+        console.log(serviceIds)
 
     }
 
@@ -90,14 +119,14 @@ const Content = (props) => {
     }
 
     const handleBooking = async values => {
-        console.log(convertStringsToNumbers(values.serviceIds))
         try {
+            createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
+            setDisabled(true)
             bookingDto = {
                 ...bookingDto,
-                staffId: Number(doctor.id),
                 bookingTime: selectedDate.getTime(),
                 shiftId: Number(values.shiftId),
-                serviceIds: convertStringsToNumbers(values.serviceIds),
+                serviceIds: serviceIds,
                 patientFirstName: values.patientFirstName,
                 patientLastName: values.patientLastName,
                 patientEmail: values.patientEmail,
@@ -110,18 +139,18 @@ const Content = (props) => {
             }
             console.log(bookingDto)
             const res = await axiosInstance.postNoAuth("booking", bookingDto)
-            createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
-            setTimeout(() => {
-                navigate(
-                    "/booking-success",
-                    {
-                        state: {
-                            bookingSuccessResponse: res.data
-                        }
-                    })
-                // window.location.reload()
-            }, 2000)
+            // setTimeout(() => {
+            //     navigate(
+            //         "/booking-success",
+            //         {
+            //             state: {
+            //                 bookingSuccessResponse: res.data
+            //             }
+            //         })
+            //     // window.location.reload()
+            // }, 2000)
         } catch (e) {
+            setDisabled(false)
             createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
         }
     }
@@ -131,39 +160,39 @@ const Content = (props) => {
             <div className="container">
                 <form onSubmit={handleSubmit(handleBooking)} className="row">
                     <div className="col-12">
-                        {doctor &&
-                            <div className="card">
-                                <div className="card-body">
-                                    <div className="booking-doc-info">
-                                        <a href="doctor-profile.html" className="booking-doc-img">
-                                            <img src={doctor.img || '/assets/img/doctors/doctor-thumb-02.jpg'}
-                                                alt="User Image" />
-                                        </a>
-                                        <div className="booking-info">
-                                            <h4><a
-                                                href="doctor-profile.html">Dr. {doctor.firstName} {doctor.lastName}</a>
-                                            </h4>
-                                            <span className="doc-speciality">
-                                                Ngày sinh: {new Date(doctor.dob).toLocaleDateString()} <br />
-                                                Kinh nghiệm: {doctor.experience}</span>
-                                            {/*<div className="rating">*/}
-                                            {/*    <i className="fas fa-star filled"></i>*/}
-                                            {/*    <i className="fas fa-star filled"></i>*/}
-                                            {/*    <i className="fas fa-star filled"></i>*/}
-                                            {/*    <i className="fas fa-star filled"></i>*/}
-                                            {/*    <i className="fas fa-star"></i>*/}
-                                            {/*    <span className="d-inline-block average-rating">35</span>*/}
-                                            {/*</div>*/}
-                                            {doctor.degrees && doctor.degrees.map(degree => (
-                                                <p className="text-muted mb-0"><i
-                                                    className="fas fa-map-marker-alt"></i> {degree}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        {/*{doctor &&*/}
+                        {/*    <div className="card">*/}
+                        {/*        <div className="card-body">*/}
+                        {/*            <div className="booking-doc-info">*/}
+                        {/*                <a href="doctor-profile.html" className="booking-doc-img">*/}
+                        {/*                    <img src={doctor.img || '/assets/img/doctors/doctor-thumb-02.jpg'}*/}
+                        {/*                         alt="User Image"/>*/}
+                        {/*                </a>*/}
+                        {/*                <div className="booking-info">*/}
+                        {/*                    <h4><a*/}
+                        {/*                        href="doctor-profile.html">Dr. {doctor.firstName} {doctor.lastName}</a>*/}
+                        {/*                    </h4>*/}
+                        {/*                    <span className="doc-speciality">*/}
+                        {/*                        Ngày sinh: {new Date(doctor.dob).toLocaleDateString()} <br/>*/}
+                        {/*                        Kinh nghiệm: {doctor.experience}</span>*/}
+                        {/*                    /!*<div className="rating">*!/*/}
+                        {/*                    /!*    <i className="fas fa-star filled"></i>*!/*/}
+                        {/*                    /!*    <i className="fas fa-star filled"></i>*!/*/}
+                        {/*                    /!*    <i className="fas fa-star filled"></i>*!/*/}
+                        {/*                    /!*    <i className="fas fa-star filled"></i>*!/*/}
+                        {/*                    /!*    <i className="fas fa-star"></i>*!/*/}
+                        {/*                    /!*    <span className="d-inline-block average-rating">35</span>*!/*/}
+                        {/*                    /!*</div>*!/*/}
+                        {/*                    {doctor.degrees && doctor.degrees.map(degree => (*/}
+                        {/*                        <p className="text-muted mb-0"><i*/}
+                        {/*                            className="fas fa-map-marker-alt"></i> {degree}*/}
+                        {/*                        </p>*/}
+                        {/*                    ))}*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*}*/}
 
                         <div className="card booking-schedule schedule-widget">
                             <div className="schedule-header">
@@ -192,9 +221,9 @@ const Content = (props) => {
                                         <div className="time-slot">
                                             <h4 className="card-title">Chọn ca</h4>
                                             <select
-                                                {...register('shiftId', { require: true })}
-                                                className="form-control" id="shiftSelect"
-                                                disabled={disabledShifts}>
+                                                {...register('shiftId', {require: true})}
+                                                className="form-control" id="shiftSelect">
+                                                <option disabled>----------------</option>
                                                 {shifts && shifts.map(shift => (
                                                     <option
                                                         value={shift.id}
@@ -212,24 +241,35 @@ const Content = (props) => {
                             <h4 className="card-title">Chọn dịch vụ</h4>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <div className="day-slot overflow-auto" style={{ maxHeight: 200 }}>
-                                        {services && services.map(service => (
-                                            <span className="form-check">
-                                                <input
-                                                    {...register('serviceIds', { require: true })}
-                                                    className="form-check-input" type="checkbox" value={service.id}
-                                                    id={`checkbox${service.id}`} />
-                                                <label className="form-check-label" htmlFor={`checkbox${service.id}`}>
-                                                    {service.name}
-                                                    (Giá: {service.price.toLocaleString('it-IT', {
-                                                        style: 'currency',
-                                                        currency: 'VND'
-                                                    })}/ {service.unit})
-                                                </label>
-                                                <br />
-                                            </span>
-                                        ))}
-                                    </div>
+                                    <Select
+                                        classname="form-control"
+                                        options={options && options}
+                                        isSearchable
+                                        isMulti
+                                        onChange={setServices}
+                                        noOptionsMessage={() => 'Vui lòng chọn ít nhất 1 dịch vụ!'}
+                                        autoFocus
+                                        //  {...register('serviceIds', {require: true})}
+                                    />
+                                    {/*<div className="day-slot overflow-auto" style={{maxHeight: 200}}>*/}
+                                    {/*{services && services.map(service => (*/}
+                                    {/*    <span className="form-check">*/}
+                                    {/*        <input*/}
+                                    {/*            {...register('serviceIds', {require: true})}*/}
+                                    {/*            className="form-check-input" type="checkbox" value={service.id}*/}
+                                    {/*            id={`checkbox${service.id}`}/>*/}
+                                    {/*        <label className="form-check-label" htmlFor={`checkbox${service.id}`}>*/}
+                                    {/*            {service.name}*/}
+                                    {/*            (Giá: {service.price.toLocaleString('it-IT', {*/}
+                                    {/*            style: 'currency',*/}
+                                    {/*            currency: 'VND'*/}
+                                    {/*        })}/ {service.unit})*/}
+                                    {/*        </label>*/}
+                                    {/*        <br/>*/}
+                                    {/*    </span>*/}
+                                    {/*))}*/}
+
+                                    {/*</div>*/}
                                 </div>
                             </div>
                         </div>
@@ -242,33 +282,33 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Họ</label>
                                             <input
-                                                className="form-control" {...register('patientFirstName', { require: true })}
-                                                type="text" />
+                                                className="form-control" {...register('patientFirstName', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Tên</label>
                                             <input
-                                                className="form-control" {...register('patientLastName', { require: true })}
-                                                type="text" />
+                                                className="form-control" {...register('patientLastName', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Email</label>
                                             <input
-                                                className="form-control" {...register('patientEmail', { require: true })}
+                                                className="form-control" {...register('patientEmail', {require: true})}
                                                 required
-                                                type="email" />
+                                                type="email"/>
                                         </div>
                                     </div>
                                     <div className="col-md-6 col-sm-12">
                                         <div className="form-group card-label">
                                             <label>Số điện thoại</label>
                                             <input
-                                                className="form-control" {...register('patientPhone', { require: true })}
-                                                type="text" />
+                                                className="form-control" {...register('patientPhone', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
 
@@ -276,8 +316,8 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Địa chỉ</label>
                                             <input
-                                                className="form-control" {...register('patientAddress', { require: true })}
-                                                type="text" />
+                                                className="form-control" {...register('patientAddress', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
 
@@ -285,8 +325,8 @@ const Content = (props) => {
                                         <div className="form-group card-label">
                                             <label>Ghi chú</label>
                                             <input
-                                                className="form-control" {...register('note', { require: true })}
-                                                type="text" />
+                                                className="form-control" {...register('note', {require: true})}
+                                                type="text"/>
                                         </div>
                                     </div>
 
@@ -310,17 +350,17 @@ const Content = (props) => {
                                         <div className="form-group">
                                             <div className="form-check form-check-inline">
                                                 <input className="form-check-input" type="radio" name="gender"
-                                                    value={true}
-                                                    defaultChecked={true}
-                                                    id="male" {...register('patientGender', { require: true })} />
+                                                       value={true}
+                                                       defaultChecked={true}
+                                                       id="male" {...register('patientGender', {require: true})} />
                                                 <label className="form-check-label" htmlFor="male">
                                                     Nam
                                                 </label>
                                             </div>
                                             <div className="form-check form-check-inline">
                                                 <input className="form-check-input" type="radio" name="gender"
-                                                    value={false}
-                                                    id="female" {...register('patientGender', { require: true })} />
+                                                       value={false}
+                                                       id="female" {...register('patientGender', {require: true})} />
                                                 <label className="form-check-label" htmlFor="female">
                                                     Nữ
                                                 </label>
@@ -334,7 +374,7 @@ const Content = (props) => {
                         </div>
 
                         <div className="submit-section proceed-btn text-right">
-                            <input type="submit" className="btn btn-primary submit-btn" value="Đặt lịch" />
+                            <input disabled={disabled} type="submit" className="btn btn-primary submit-btn" value="Đặt lịch"/>
                         </div>
 
                     </div>

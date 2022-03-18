@@ -59,7 +59,7 @@ const Header = () => {
                             <ul className="submenu">
                                 <li><Link to="search-doctor">Tìm kiếm bác sĩ</Link></li>
                                 <li><a href="doctor-profile.html">Doctor Profile</a></li>
-                                <li><a href="booking.html">Booking</a></li>
+                                <li><Link to="booking">Đặt lịch</Link></li>
                                 <li><a href="checkout.html">Checkout</a></li>
                                 <li><a href="booking-success.html">Booking Success</a></li>
                                 <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
