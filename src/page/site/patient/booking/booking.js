@@ -6,24 +6,24 @@ import axiosInstance from "../../../../api/axiosInstance";
 
 const BookingPage = () => {
 
-    const [doctor, setDoctor] = useState()
+    // const [doctor, setDoctor] = useState()
 
-    const { doctorId } = useParams();
+    // const { doctorId } = useParams();
 
-    useEffect(() => {
-        const initData = async () => {
-            const resDoctor = await axiosInstance.getNoAuth(`doctor/${doctorId}`)
-            setDoctor(resDoctor.data)
-            console.log("res:", resDoctor.data)
-        }
-        initData()
-    }, [doctorId])
+    // useEffect(() => {
+    //     const initData = async () => {
+    //         const resDoctor = await axiosInstance.getNoAuth(`doctor/${doctorId}`)
+    //         setDoctor(resDoctor.data)
+    //         console.log("res:", resDoctor.data)
+    //     }
+    //     initData()
+    // }, [doctorId])
 
     return (
         <>
             <Breadcrumb />
             <Content
-                doctor={doctor}
+                // doctor={doctor}
             />
         </>
     )

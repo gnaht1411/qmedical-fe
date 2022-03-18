@@ -24,7 +24,7 @@ const SiteLayout = () => {
                         <Route path="login" element={<LoginPage/>}/>
                         <Route path="doctor-profile/:id" element={<DoctorProfilePage/>}/>
                         <Route path="change-password" element={<ChangePassword/>}/>
-                        <Route path="booking/:doctorId" element={<BookingPage/>}/>
+                        <Route path="booking" element={<BookingPage/>}/>
                         <Route path="doctor" element={DoctorDashboardPage}/>
                         <Route path="booking-success" element={<BookingSuccessPage/>}/>
                         <Route path="forgot-password" element={<ForgotPassword/>}/>
