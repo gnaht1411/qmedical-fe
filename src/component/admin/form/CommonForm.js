@@ -5,7 +5,6 @@ const layout = {
     wrapperCol: { span: 16 },
 };
 
-/* eslint-disable no-template-curly-in-string */
 const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -44,12 +43,13 @@ export default function CommonForm(props) {
             onOk={() => handleSubmit(data)}
             onCancel={onCloseModal}
         >
+
             <Form {...layout} name="nest-messages" validateMessages={validateMessages}>
                 {
                     fields.filter(field => field.hide === false).map((field) => {
                         return (
                             <Form.Item
-                                key={field.dataIndex}
+                                name={field.dataIndex}
                                 label={field.title}
                                 rules={[
                                     {
