@@ -139,16 +139,15 @@ const Content = (props) => {
             }
             console.log(bookingDto)
             const res = await axiosInstance.postNoAuth("booking", bookingDto)
-            // setTimeout(() => {
-            //     navigate(
-            //         "/booking-success",
-            //         {
-            //             state: {
-            //                 bookingSuccessResponse: res.data
-            //             }
-            //         })
-            //     // window.location.reload()
-            // }, 2000)
+            setTimeout(() => {
+                navigate(
+                    "/booking-success",
+                    {
+                        state: {
+                            bookingSuccessResponse: res.data
+                        }
+                    })
+            }, 2000)
         } catch (e) {
             setDisabled(false)
             createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
