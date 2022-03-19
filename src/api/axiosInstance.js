@@ -31,7 +31,7 @@ const postNoAuth = (url, body) => (
 )
 
 const postService = url => {
-    return axiosInstance.post(url);
+    return axiosInstance.post(url, getConfig());
 }
 
 const putService = url => {

@@ -22,7 +22,10 @@ export default function CommonForm(props) {
 
     useEffect(() => {
         if (item.id) {
+            console.log('item', item)
             setData(item);
+            console.log('item sau : ', item);
+            console.log('data : ', data);
         } else {
             setData({});
         }
@@ -46,10 +49,11 @@ export default function CommonForm(props) {
 
             <Form {...layout} name="nest-messages" validateMessages={validateMessages}>
                 {
-                    fields.filter(field => field.hide === false).map((field) => {
+                    fields.filter(field => field.hide === false).map((field, index) => {
                         return (
                             <Form.Item
-                                name={field.dataIndex}
+                                //name={field.dataIndex}
+                                key={index}
                                 label={field.title}
                                 rules={[
                                     {
@@ -57,7 +61,7 @@ export default function CommonForm(props) {
                                     },
                                 ]}
                             >
-                                <Input placeholder={field.title} name={field.dataIndex} value={data[field.dataIndex]} onChange={handleChange} />
+                                <Input placeholder={field.title} name={field.dataIndex} value={data[field.key]} onChange={handleChange} />
                             </Form.Item>
                         )
                     })

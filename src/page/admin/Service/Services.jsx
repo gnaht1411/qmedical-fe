@@ -140,7 +140,7 @@ const Services = () => {
         if (item?.id) {
             try {
                 console.log('edit : ', item.id);
-                const res = await axiosInstance.putService(`/service`);
+                const res = await axiosInstance.putService(`/service`, item);
                 console.log('res Edit :', res);
                 getServices();
                 message.success('Update successfully')
@@ -151,7 +151,7 @@ const Services = () => {
             }
         } else {
             try {
-                const res = await axiosInstance.postService(`/service`);
+                const res = await axiosInstance.postService(`/service`, item);
                 console.log('res Add :', res);
                 getServices();
                 message.success(res.data.message)
