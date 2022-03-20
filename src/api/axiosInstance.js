@@ -30,12 +30,12 @@ const postNoAuth = (url, body) => (
     axiosInstance.post(`/no-auth/${url}`, body)
 )
 
-const postService = url => {
-    return axiosInstance.post(url, getConfig());
+const postService = (url, data) => {
+    return axiosInstance.post(url, data, getConfig());
 }
 
-const putService = url => {
-    return axiosInstance.put(url, getConfig());
+const putService = (url, data) => {
+    return axiosInstance.put(url, data, getConfig());
 }
 
 const deleteService = url => {

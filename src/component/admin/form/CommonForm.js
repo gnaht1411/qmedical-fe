@@ -5,6 +5,7 @@ const layout = {
     wrapperCol: { span: 16 },
 };
 
+/* eslint-disable no-template-curly-in-string */
 const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -22,10 +23,7 @@ export default function CommonForm(props) {
 
     useEffect(() => {
         if (item.id) {
-            console.log('item', item)
             setData(item);
-            console.log('item sau : ', item);
-            console.log('data : ', data);
         } else {
             setData({});
         }
@@ -46,14 +44,13 @@ export default function CommonForm(props) {
             onOk={() => handleSubmit(data)}
             onCancel={onCloseModal}
         >
-
             <Form {...layout} name="nest-messages" validateMessages={validateMessages}>
                 {
-                    fields.filter(field => field.hide === false).map((field, index) => {
+                    fields.filter(field => field.hide === false).map((field) => {
                         return (
                             <Form.Item
                                 //name={field.dataIndex}
-                                key={index}
+                                key={field.key}
                                 label={field.title}
                                 rules={[
                                     {
@@ -61,7 +58,7 @@ export default function CommonForm(props) {
                                     },
                                 ]}
                             >
-                                <Input placeholder={field.title} name={field.dataIndex} value={data[field.key]} onChange={handleChange} />
+                                <Input placeholder={field.title} name={field.dataIndex} value={data[field.dataIndex]} onChange={handleChange} />
                             </Form.Item>
                         )
                     })

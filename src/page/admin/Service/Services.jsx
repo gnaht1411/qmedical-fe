@@ -8,6 +8,7 @@ import CommonForm from '../../../component/admin/form/CommonForm';
 import axiosInstance from '../../../api/axiosInstance';
 import toastTypes from '../../../common/constants/toast/toastTypes';
 import createToast from '../../../component/site/toast/toast';
+import { Link } from 'react-router-dom';
 
 
 const Search = Input.Search;
@@ -22,7 +23,6 @@ const Services = () => {
             key: 'name',
             sorter: {
                 compare: (a, b) => a.name.localeCompare(b.name),
-                multiple: 1,
             },
             hide: false
         },
@@ -41,7 +41,6 @@ const Services = () => {
             key: 'unit',
             sorter: {
                 compare: (a, b) => a.unit - b.unit,
-                multiple: 1,
             },
             hide: false
         },
@@ -49,27 +48,41 @@ const Services = () => {
             title: 'Mô tả',
             dataIndex: 'des',
             key: 'des',
-            sorter: {
-                compare: (a, b) => a.des - b.des,
-                multiple: 1,
-            },
             hide: false
         },
+        // {
+        //     title: 'Action',
+        //     dataIndex: '',
+        //     key: 'x',
+        //     render: (item, record) => <div key={item.id}>
+        //         <Link to={`edit/${item.id}`}>
+        //             <Button type="primary" shape="round" icon={<EditOutlined />}>
+        //             </Button>
+        //         </Link>
+        //         <Divider type='vertical' />
+        //         <Popconfirm
+        //             title="Are you sure to delete ?"
+        //             onConfirm={() => handleDelete(item.id)} okText="Yes" cancelText="No"
+        //         >
+        //             <Button danger shape="round" icon={<DeleteOutlined />}></Button>,
+        //         </Popconfirm>
+        //     </div>,
+        //     hide: true
+        // },
         {
             title: 'Action',
             dataIndex: '',
             key: 'x',
-            render: (item, record) => <div key={record.id}>
-
-                <Button type="primary" onClick={() => handleFetchItem(record.id)} shape="round" icon={<EditOutlined />}></Button>
+            render: (item, record) => <div key={item.id}>
+                <Button type="primary" onClick={() => handleFetchItem(item.id)} shape="round" icon={<EditOutlined />}></Button>
                 <Divider type='vertical' />
                 <Popconfirm
                     title="Are you sure to delete ?"
-                    onConfirm={() => handleDelete(record.id)} okText="Yes" cancelText="No"
-
+                    onConfirm={() => handleDelete(item.id)} okText="Yes" cancelText="No"
                 >
                     <Button danger shape="round" icon={<DeleteOutlined />}></Button>,
                 </Popconfirm>
+
             </div>,
             hide: true
         },
@@ -141,9 +154,8 @@ const Services = () => {
             try {
                 console.log('edit : ', item.id);
                 const res = await axiosInstance.putService(`/service`, item);
-                console.log('res Edit :', res);
                 getServices();
-                message.success('Update successfully')
+                message.success('Sửa thành công')
                 onCloseModal();
             } catch (err) {
                 message.error('Update failed: ' + err.message)
@@ -152,9 +164,8 @@ const Services = () => {
         } else {
             try {
                 const res = await axiosInstance.postService(`/service`, item);
-                console.log('res Add :', res);
                 getServices();
-                message.success(res.data.message)
+                message.success('Thêm mới thành công !')
                 onCloseModal();
             } catch (err) {
                 message.error('Save failed: ' + err.message)
@@ -169,9 +180,11 @@ const Services = () => {
             <BreadCrumd title='Dịch vụ' subtitle='Danh sách' />
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
+                    {/* <Link to="add"> */}
                     <Button type="primary" htmlType="submit" icon={<PlusOutlined />} onClick={onOpenModal}>
                         Thêm dịch vụ
                     </Button>
+                    {/* </Link> */}
                 </Space>
 
                 <Search
