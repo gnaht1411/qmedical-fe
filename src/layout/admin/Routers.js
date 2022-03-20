@@ -1,12 +1,14 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import RoleType from "../../common/constants/role/roleType";
 import Patient from '../../page/admin/Patient/Patient';
 import Report from '../../page/admin/Report/Report';
+import AddService from '../../page/admin/Service/AddService';
 import Services from '../../page/admin/Service/Services';
-import Appointment from './../../page/admin/Appointments/Appointment';
-import Doctor from './../../page/admin/Doctors/Doctor';
-import Dashboard from './../../page/admin/Dashboard/Dashboard';
+import Staff from '../../page/admin/Staff/Staff';
 import authService from "../../service/authService";
-import RoleType from "../../common/constants/role/roleType";
+import Appointment from './../../page/admin/Appointments/Appointment';
+import Dashboard from './../../page/admin/Dashboard/Dashboard';
+import Doctor from './../../page/admin/Doctors/Doctor';
 
 function Routers(props) {
 
@@ -24,7 +26,10 @@ function Routers(props) {
                     <Route path="appointment" exact element={<Appointment />} />
                     <Route path="doctor" exact element={<Doctor />} />
                     <Route path="patient" exact element={<Patient />} />
+                    <Route path="staff" exact element={<Staff />} />
                     <Route path="report" exact element={<Report />} />
+                    <Route path="service/edit/:id" element={<AddService />} />
+                    <Route path="service/add" element={<AddService />} />
                     {/* </Route> */}
                 </Routes> :
                 <Navigate to="/" />
