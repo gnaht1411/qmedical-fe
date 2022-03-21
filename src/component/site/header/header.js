@@ -69,34 +69,21 @@ const Header = () => {
                                 <li><a href="change-password.html">Change Password</a></li>
                             </ul>
                         </li>
-                        {/*<li className="has-submenu active">*/}
-                        {/*    <a href="#">Pages <i className="fas fa-chevron-down"></i></a>*/}
-                        {/*    <ul className="submenu">*/}
-                        {/*        <li><a href="voice-call.html">Voice Call</a></li>*/}
-                        {/*        <li><a href="video-call.html">Video Call</a></li>*/}
-                        {/*        <li><a href="search.html">Search Doctors</a></li>*/}
-                        {/*        <li><a href="calendar.html">Calendar</a></li>*/}
-                        {/*        <li><a href="components.html">Components</a></li>*/}
-                        {/*        <li className="has-submenu">*/}
-                        {/*            <a href="invoices.html">Invoices</a>*/}
-                        {/*            <ul className="submenu">*/}
-                        {/*                <li><a href="invoices.html">Invoices</a></li>*/}
-                        {/*                <li><a href="invoice-view.html">Invoice View</a></li>*/}
-                        {/*            </ul>*/}
-                        {/*        </li>*/}
-                        {/*        <li><a href="blank-page.html">Starter Page</a></li>*/}
-                        {/*        <li className="active">*/}
-                        {/*            <Link to="/login">Login</Link></li>*/}
-                        {/*        <li><a href="register.html">Register</a></li>*/}
-                        {/*        <li><a href="forgot-password.html">Forgot Password</a></li>*/}
-                        {/*    </ul>*/}
-                        {/*</li>*/}
+                        <li className="has-submenu">
+                            <a href="#">Tài khoản <i className="fas fa-chevron-down"></i></a>
+                            <ul className="submenu">
+                                {isLogined && <li><Link to="change-password">Đổi mật khẩu</Link></li>}
+                                {!isLogined && <li><Link to="login">Đăng nhập</Link></li>}
+                                {isLogined && <li><Link onClick={handleLoginOrLogout} to="login">Đăng xuất</Link></li>}
+                                {/*<li><a href="calendar.html">Calendar</a></li>*/}
+                            </ul>
+                        </li>
                         <li>
                             <Link to="admin">Admin</Link>
                         </li>
-                        <li className="login-link">
-                            <a href="login.html">Đăng nhập / Đăngn ký</a>
-                        </li>
+                        {/*<li className="login-link">*/}
+                        {/*    <a href="login.html">Đăng nhập / Đăngn ký</a>*/}
+                        {/*</li>*/}
                     </ul>
                 </div>
                 <ul className="nav header-navbar-rht">
@@ -109,13 +96,13 @@ const Header = () => {
                             <p className="contact-info-header"> +1 315 369 5943</p>
                         </div>
                     </li>
-                    {isLogined &&
-                        <li className="nav-item">
-                            <Link onClick={handleLoginOrLogout} to="/login"
-                                className="nav-link header-login">Logout</Link>
-                        </li>
+                    {/*{isLogined &&*/}
+                    {/*    <li className="nav-item">*/}
+                    {/*        <Link onClick={handleLoginOrLogout} to="/login"*/}
+                    {/*            className="nav-link header-login">Logout</Link>*/}
+                    {/*    </li>*/}
 
-                    }
+                    {/*}*/}
 
                 </ul>
             </nav>
