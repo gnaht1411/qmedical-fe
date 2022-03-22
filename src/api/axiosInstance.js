@@ -41,6 +41,17 @@ const putService = url => {
 const deleteService = url => {
     return axiosInstance.delete(url, getConfig());
 }
+const postPatient = url => {
+    return axiosInstance.post(url);
+}
+
+const putPatient = url => {
+    return axiosInstance.put(url, getConfig());
+}
+
+const deletePatient = url => {
+    return axiosInstance.delete(url, getConfig());
+}
 
 export default {
     search,
@@ -48,5 +59,8 @@ export default {
     postNoAuth,
     postService,
     deleteService,
-    putService
+    putService,
+    postPatient,
+    deletePatient,
+    putPatient,
 }
