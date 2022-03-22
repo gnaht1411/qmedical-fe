@@ -44,28 +44,27 @@ const LoginPage = () => {
                                 </div>
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
-                                        <h3>Login</h3>
+                                        <h3>Đăng nhập</h3>
                                     </div>
                                     <form onSubmit={handleSubmit(handleLogin)}>
-                                        <div className="form-group form-focus">
-                                            <input required className="form-control floating"
-                                                   {...register("username", {required: true})}
-                                                placeholder="Username..."
-                                            />
-                                            <label className="focus-label">Username</label>
-                                            {errors.username?.type === 'required' &&
-                                                <span className="text-danger">Username is required!</span>}
+                                        <div className="form-group card-label">
+                                            <label>Username</label>
+                                            <input
+                                                className="form-control"
+                                                {...register("username", {required: true})}
+                                                required
+                                                type="text"/>
                                         </div>
-                                        <div className="form-group form-focus">
-                                            <input type="password" className="form-control floating"
-                                                   {...register("password", {required: true})}
-                                            placeholder="Password..."/>
-                                            <label className="focus-label">Password</label>
-                                            {errors.password?.type === 'required' &&
-                                                <span className="text-danger">Password is required!</span>}
+                                        <div className="form-group card-label">
+                                            <label>Password</label>
+                                            <input
+                                                className="form-control"
+                                                {...register("password", {required: true})}
+                                                required
+                                                type="password"/>
                                         </div>
                                         <div className="text-right">
-                                            <Link className="forgot-link" to="/forgot-password">Forgot Password ?</Link>
+                                            <Link className="forgot-link" to="/forgot-password">Quên mật khẩu ?</Link>
                                         </div>
                                         <button className="btn btn-primary btn-block btn-lg login-btn"
                                                 type="submit">Login
@@ -77,15 +76,15 @@ const LoginPage = () => {
                                         <div className="row form-row social-login">
                                             <div className="col-6">
                                                 <a href="#" className="btn btn-facebook btn-block"><i
-                                                    className="fab fa-facebook-f mr-1"></i> Login</a>
+                                                    className="fab fa-facebook-f mr-1"></i> Đăng nhập</a>
                                             </div>
                                             <div className="col-6">
                                                 <a href="#" className="btn btn-google btn-block"><i
-                                                    className="fab fa-google mr-1"></i> Login</a>
+                                                    className="fab fa-google mr-1"></i> Đăng nhập</a>
                                             </div>
                                         </div>
-                                        <div className="text-center dont-have">Don’t have an account? <a
-                                            href="register.html">Register</a>
+                                        <div className="text-center dont-have">Bạn chưa có tài khoản? <a
+                                            href="register.html">Đăng ký</a>
                                         </div>
                                     </form>
                                 </div>

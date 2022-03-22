@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Divider, message, Space } from 'antd';
+import { Button, Divider, message, Popconfirm, Space, Input } from 'antd';
 import { EditOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
 import CommonForm from '../../../component/admin/form/CommonForm';
 import axiosInstance from '../../../api/axiosInstance';
-import toastTypes from '../../../common/constants/toast/toastTypes';
-import createToast from '../../../component/site/toast/toast';
+
+const Search = Input.Search;
 
 
 const Services = () => {
@@ -16,15 +16,16 @@ const Services = () => {
         {
             title: 'Tên dịch vụ',
             dataIndex: 'name',
+            key: 'name',
             sorter: {
                 compare: (a, b) => a.name.localeCompare(b.name),
-                multiple: 1,
             },
             hide: false
         },
         {
             title: 'Giá dịch vụ',
             dataIndex: 'price',
+            key: 'price',
             sorter: (a, b) => {
                 return a.price > b.price
             },
@@ -33,29 +34,50 @@ const Services = () => {
         {
             title: 'Đơn vị',
             dataIndex: 'unit',
+            key: 'unit',
             sorter: {
                 compare: (a, b) => a.unit - b.unit,
-                multiple: 1,
             },
             hide: false
         },
         {
             title: 'Mô tả',
             dataIndex: 'des',
-            sorter: {
-                compare: (a, b) => a.des - b.des,
-                multiple: 1,
-            },
+            key: 'des',
             hide: false
         },
+        // {
+        //     title: 'Action',
+        //     dataIndex: '',
+        //     key: 'x',
+        //     render: (item, record) => <div key={item.id}>
+        //         <Link to={`edit/${item.id}`}>
+        //             <Button type="primary" shape="round" icon={<EditOutlined />}>
+        //             </Button>
+        //         </Link>
+        //         <Divider type='vertical' />
+        //         <Popconfirm
+        //             title="Are you sure to delete ?"
+        //             onConfirm={() => handleDelete(item.id)} okText="Yes" cancelText="No"
+        //         >
+        //             <Button danger shape="round" icon={<DeleteOutlined />}></Button>,
+        //         </Popconfirm>
+        //     </div>,
+        //     hide: true
+        // },
         {
             title: 'Action',
             dataIndex: '',
             key: 'x',
-            render: (item, key) => <div key={item.id}>
+            render: (item, record) => <div key={item.id}>
                 <Button type="primary" onClick={() => handleFetchItem(item.id)} shape="round" icon={<EditOutlined />}></Button>
                 <Divider type='vertical' />
-                <Button danger onClick={() => handleDelete(item.id)} shape="round" icon={<DeleteOutlined />}></Button>,
+                <Popconfirm
+                    title="Are you sure to delete ?"
+                    onConfirm={() => handleDelete(item.id)} okText="Yes" cancelText="No"
+                >
+                    <Button danger shape="round" icon={<DeleteOutlined />}></Button>,
+                </Popconfirm>
 
             </div>,
             hide: true
@@ -78,7 +100,6 @@ const Services = () => {
 
     useEffect(() => {
         console.log("GET SERVICE")
-
         getServices();
     }, []);
 
@@ -87,8 +108,8 @@ const Services = () => {
         try {
             const resServices = await axiosInstance.getNoAuth("service/no-page")
             setData(resServices.data);
-        } catch (e) {
-            createToast(toastTypes.ERROR, `Error !!!!`)
+        } catch (err) {
+            message.error(err ? err.response.data.message : err.message)
         }
         setLoading(false);
     }
@@ -96,16 +117,16 @@ const Services = () => {
 
 
     const handleFetchItem = async (id) => {
-        //setLoading(true);
+        setLoading(true);
         try {
             const res = await axiosInstance.search(`/service/${id}`);
             console.log('res fetchItem :', res);
             setItem(res.data);
-            console.log('item :', res.data);
+            console.log('item :', res.data.id);
             onOpenModal();
-            //setLoading(false);
+            setLoading(false);
         } catch (err) {
-            message.error(err.response.data.message)
+            message.error(err ? err.response.data.message : err.message)
             console.log(err);
         }
     };
@@ -116,10 +137,10 @@ const Services = () => {
         try {
             const res = await axiosInstance.deleteService(`/service/${id}`);
             getServices();
-            message.success(res.data.message)
+            message.success('Xóa thành công');
             setLoading(false);
         } catch (err) {
-            message.error(err.response.data.message)
+            message.error(err ? err.response.data.message : err.message)
             console.log(err);
         }
     }
@@ -128,39 +149,47 @@ const Services = () => {
         if (item?.id) {
             try {
                 console.log('edit : ', item.id);
-                const res = await axiosInstance.postService(`/service/${item.id}`, item);
-                console.log('res Edit :', res);
+                const res = await axiosInstance.putService(`/service`, item);
                 getServices();
-                message.success(res.data.message)
+                message.success('Sửa thành công')
                 onCloseModal();
             } catch (err) {
-                message.error(err.response.data.message)
+                message.error(err ? err.response.data.message : err.message)
+
                 console.log(err);
             }
         } else {
             try {
                 const res = await axiosInstance.postService(`/service`, item);
-                console.log('res Add :', res);
                 getServices();
-                message.success(res.data.message)
+                message.success('Thêm mới thành công !')
                 onCloseModal();
             } catch (err) {
-                message.error(err.response.data.message)
+                message.error(err ? err.response.data.message : err.message)
                 console.log(err);
             }
         }
     };
+
 
     return (
         <Content style={{ margin: '0 16px' }}>
             <BreadCrumd title='Dịch vụ' subtitle='Danh sách' />
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
+                    {/* <Link to="add"> */}
                     <Button type="primary" htmlType="submit" icon={<PlusOutlined />} onClick={onOpenModal}>
                         Thêm dịch vụ
                     </Button>
+                    {/* </Link> */}
                 </Space>
+
+                <Search
+                    placeholder="Search ..."
+                    style={{ width: '30%', float: 'right', marginTop: '-30px' }}
+                />
                 <Divider />
+
                 <Table loading={loading} columns={columns} dataSource={data} />
                 <CommonForm fields={columns} handleSubmit={handleSubmit} item={item} openModal={openModal} onCloseModal={onCloseModal} />
             </div>

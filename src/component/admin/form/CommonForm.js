@@ -49,7 +49,8 @@ export default function CommonForm(props) {
                     fields.filter(field => field.hide === false).map((field) => {
                         return (
                             <Form.Item
-                                key={field.dataIndex}
+                                //name={field.dataIndex}
+                                key={field.key}
                                 label={field.title}
                                 rules={[
                                     {
