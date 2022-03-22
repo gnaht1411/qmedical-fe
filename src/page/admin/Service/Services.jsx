@@ -6,10 +6,6 @@ import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
 import CommonForm from '../../../component/admin/form/CommonForm';
 import axiosInstance from '../../../api/axiosInstance';
-import toastTypes from '../../../common/constants/toast/toastTypes';
-import createToast from '../../../component/site/toast/toast';
-import { Link } from 'react-router-dom';
-
 
 const Search = Input.Search;
 
@@ -112,8 +108,8 @@ const Services = () => {
         try {
             const resServices = await axiosInstance.getNoAuth("service/no-page")
             setData(resServices.data);
-        } catch (e) {
-            createToast(toastTypes.ERROR, `Error !!!!`)
+        } catch (err) {
+            message.error(err ? err.response.data.message : err.message)
         }
         setLoading(false);
     }
@@ -130,7 +126,7 @@ const Services = () => {
             onOpenModal();
             setLoading(false);
         } catch (err) {
-            message.error(err.response.data.message)
+            message.error(err ? err.response.data.message : err.message)
             console.log(err);
         }
     };
@@ -141,10 +137,10 @@ const Services = () => {
         try {
             const res = await axiosInstance.deleteService(`/service/${id}`);
             getServices();
-            message.success('Delete successfully');
+            message.success('Xóa thành công');
             setLoading(false);
         } catch (err) {
-            message.error('Delete failed: ' + err.message);
+            message.error(err ? err.response.data.message : err.message)
             console.log(err);
         }
     }
@@ -158,7 +154,8 @@ const Services = () => {
                 message.success('Sửa thành công')
                 onCloseModal();
             } catch (err) {
-                message.error('Update failed: ' + err.message)
+                message.error(err ? err.response.data.message : err.message)
+
                 console.log(err);
             }
         } else {
@@ -168,7 +165,7 @@ const Services = () => {
                 message.success('Thêm mới thành công !')
                 onCloseModal();
             } catch (err) {
-                message.error('Save failed: ' + err.message)
+                message.error(err ? err.response.data.message : err.message)
                 console.log(err);
             }
         }

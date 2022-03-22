@@ -56,12 +56,12 @@ const LoginPage = () => {
                                                 type="text"/>
                                         </div>
                                         <div className="form-group card-label">
-                                            <label>Username</label>
+                                            <label>Password</label>
                                             <input
                                                 className="form-control"
                                                 {...register("password", {required: true})}
                                                 required
-                                                type="text"/>
+                                                type="password"/>
                                         </div>
                                         <div className="text-right">
                                             <Link className="forgot-link" to="/forgot-password">Quên mật khẩu ?</Link>

@@ -82,8 +82,8 @@ const Appointment = () => {
                 console.log(res);
                 setData(res.data.data);
                 console.log('end');
-            } catch (error) {
-                createToast(toastTypes.ERROR, `Error !!!!`)
+            } catch (err) {
+                message.error(err ? err.response.data.message : err.message)
             }
             setLoading(false);
         }
