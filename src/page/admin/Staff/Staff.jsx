@@ -177,16 +177,16 @@ const Staff = () => {
                     />
                     <Divider/>
 
-                    <Table
+                    {data && <Table
                         columns={columns}
                         dataSource={data}
-                        loading={loading}/>
-                    <CommonForm
-                        fields={columns}
-                        handleSubmit={handleSubmit}
-                        item={item}
-                        openModal={openModal}
-                        onCloseModal={onCloseModal}/>
+                        loading={loading}/>}
+                    {/*<CommonForm*/}
+                    {/*    fields={columns}*/}
+                    {/*    handleSubmit={handleSubmit}*/}
+                    {/*    item={item}*/}
+                    {/*    openModal={openModal}*/}
+                    {/*    onCloseModal={onCloseModal}/>*/}
                 </div>
             </Content>
         </>
