@@ -30,12 +30,18 @@ const postNoAuth = (url, body) => (
     axiosInstance.post(`/no-auth/${url}`, body)
 )
 
-const postService = url => {
-    return axiosInstance.post(url);
+
+const getPatient = url => {
+    return axiosInstance.get(url);
 }
 
-const putService = url => {
-    return axiosInstance.put(url, getConfig());
+const postService = url => {
+    return axiosInstance.post(url);
+
+}
+
+const putService = (url, data) => {
+    return axiosInstance.put(url, data, getConfig());
 }
 
 const deleteService = url => {
@@ -58,6 +64,7 @@ export default {
     getNoAuth,
     postNoAuth,
     postService,
+    getPatient,
     deleteService,
     putService,
     postPatient,

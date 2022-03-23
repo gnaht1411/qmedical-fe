@@ -2,19 +2,27 @@ import {useForm} from "react-hook-form";
 import axiosInstance from "../../../api/axiosInstance";
 import createToast from "../../../component/site/toast/toast";
 import toastTypes from "../../../common/constants/toast/toastTypes";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const ForgotPassword = () => {
 
     const {register, handleSubmit, formState: {errors}} = useForm()
+    const navigate = useNavigate()
+    const [disabled, setDisabled] = useState(false)
 
     const handleSubmitForm = async values => {
         try {
+            setDisabled(true)
+            // createToast(toastTypes.INFO, "Hệ thống đang xử lý!")
             const res = await axiosInstance.getNoAuth(`reset-password?email=${values.email}`)
             console.log(res)
             createToast(toastTypes.SUCCESS, "Đổi mật khẩu thành công! Vui lòng kiểm tra email!")
-
+            navigate("/login")
         } catch (e) {
             createToast(toastTypes.ERROR, e ? e.response.data.message : e.message)
+        } finally {
+            setDisabled(false)
         }
     }
 
@@ -37,17 +45,18 @@ const ForgotPassword = () => {
                                     </div>
 
                                     <form onSubmit={handleSubmit(handleSubmitForm)}>
-                                        <div className="form-group form-focus">
+                                        <div className="form-group card-label">
+                                            <label>Email</label>
                                             <input
-                                                type="email"
-                                                className="form-control floating"
+                                                className="form-control"
                                                 {...register("email", {required: true})}
                                                 required
-                                            />
-                                            <label className="focus-label">Email</label>
+                                                type="email"/>
                                         </div>
-                                        <button className="btn btn-primary btn-block btn-lg login-btn"
-                                                type="submit">Lấy lại mật khẩu
+                                        <button
+                                            className="btn btn-primary btn-block btn-lg login-btn"
+                                            disabled={disabled}
+                                            type="submit">Lấy lại mật khẩu
                                         </button>
                                     </form>
 

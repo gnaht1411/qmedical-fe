@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Divider, message, Form, Select } from 'antd';
-import { EyeFilled, EyeInvisibleOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Divider, message, Form, Select, Input, Space } from 'antd';
+import { EyeFilled, EyeInvisibleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
@@ -15,6 +15,8 @@ const pageReq = {
     page: 0,
     pageSize: 10
 }
+
+const Search = Input.Search;
 
 const Appointment = () => {
 
@@ -72,16 +74,16 @@ const Appointment = () => {
         const getBookingPendingList = async () => {
             setLoading(true);
             try {
-                // const params = queryString.stringify(pageReq)
-                // const url = `booking/search?${params}`
-                const url = `booking/search`;
-                const res = await axiosInstance.search(url);
+                const params = queryString.stringify(pageReq)
+                const url = `booking/search?${params}`
+
+                const res = await axiosInstance.getNoAuth(url);
 
                 console.log(res);
                 setData(res.data.data);
                 console.log('end');
-            } catch (error) {
-                createToast(toastTypes.ERROR, `Error !!!!`)
+            } catch (err) {
+                message.error(err ? err.response.data.message : err.message)
             }
             setLoading(false);
         }
@@ -101,11 +103,15 @@ const Appointment = () => {
         <Content style={{ margin: '0 16px' }}>
             <BreadCrumd title='Lịch đặt' subtitle='Danh sách' />
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                {/* <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
+                <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
                     <Button type="primary" htmlType="submit" icon={<PlusOutlined />} onClick={onOpenModal}>
-                        Thêm dịch vụ
+                        Thêm lịch đặt
                     </Button>
-                </Space> */}
+                </Space>
+                <Search
+                    placeholder="Search ..."
+                    style={{ width: '30%', float: 'right', marginTop: '-30px' }}
+                />
                 <Divider />
                 <Table loading={loading} columns={columns} dataSource={data} />
                 {/* <CommonForm fields={columns} item={item} openModal={openModal} onCloseModal={onCloseModal} /> */}

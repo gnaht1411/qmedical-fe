@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Divider, message, Form, Select } from 'antd';
-import { EyeFilled, EyeInvisibleOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Divider, message, Form, Select, Space } from 'antd';
+import { EyeFilled, EyeInvisibleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import BreadCrumd from '../../../component/admin/breadcrumb/BreadCrumd';
@@ -73,7 +73,7 @@ const Doctor = () => {
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 {/* <Space direction="horizontal" style={{ width: '100%', justifyContent: 'left' }}>
                     <Button type="primary" htmlType="submit" icon={<PlusOutlined />} onClick={onOpenModal}>
-                        Thêm dịch vụ
+                        Thêm bác sĩ
                     </Button>
                 </Space> */}
                 <Divider />
